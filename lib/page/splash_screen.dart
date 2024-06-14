@@ -2,6 +2,7 @@ import 'package:chat_app/main.dart';
 import 'package:chat_app/page/auth/login_page.dart';
 import 'package:chat_app/page/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -17,8 +18,14 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
     // one time animate the icon using Future class with duration
     Future.delayed(
-      const Duration(milliseconds: 1500),
+      const Duration(milliseconds: 3000),
       () {
+        // exit the full screen
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+        SystemChrome.setSystemUIOverlayStyle(
+            const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+
+        // navigate the screen
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(

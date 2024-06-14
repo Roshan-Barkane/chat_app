@@ -1,6 +1,10 @@
-import 'package:chat_app/page/home.dart';
+// import 'package:chat_app/page/home.dart';
 import 'package:flutter/material.dart';
 
+import 'page/auth/login_page.dart';
+
+// global object accessing device screen size
+late Size mq;
 void main() {
   runApp(const MyApp());
 }
@@ -25,7 +29,7 @@ class MyApp extends StatelessWidget {
             backgroundColor: Colors.white,
             titleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
           )),
-      home: HomePage(),
+      home: LoginPage(),
     );
   }
 }

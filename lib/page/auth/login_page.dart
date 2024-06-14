@@ -31,13 +31,24 @@ class _LoginPageState extends State<LoginPage> {
               bottom: mq.height * .14,
               width: mq.width * .9, // 50% width of Image.
               left: mq.width * .05, //   25% left padding.
-              height: mq.height * .07,
+              height: mq.height * .06,
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green, elevation: 1),
+                    backgroundColor: const Color.fromARGB(255, 199, 239, 153),
+                    elevation: 1),
                 onPressed: () {},
-                icon: Image.asset("images/search.png"),
-                label: const Text("Signin with Google"),
+                icon: Image.asset(
+                  "images/search.png",
+                  height: mq.height * .04, // MediaQuery
+                ),
+                label: RichText(
+                  text: const TextSpan(children: [
+                    TextSpan(text: "SignIn with "),
+                    TextSpan(
+                        text: "Google",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                  ], style: TextStyle(color: Colors.black, fontSize: 17)),
+                ),
               ),
             ),
           ],

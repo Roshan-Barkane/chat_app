@@ -1,6 +1,7 @@
 // import 'package:chat_app/page/home.dart';
+import 'package:chat_app/page/splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'page/auth/login_page.dart';
+//import 'page/auth/login_page.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -8,6 +9,7 @@ import 'firebase_options.dart';
 // global object accessing device screen size
 late Size mq;
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   _initializeFirebase();
   runApp(const MyApp());
 }
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
             backgroundColor: Colors.white,
             titleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
           )),
-      home: LoginPage(),
+      home: SplashPage(),
     );
   }
 }

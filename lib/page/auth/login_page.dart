@@ -1,11 +1,12 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:chat_app/main.dart';
 import 'package:chat_app/page/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+import '../../helper/dialogs.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -35,6 +36,7 @@ class _LoginPageState extends State<LoginPage> {
 
 // handle the sign In  with google
   _hendleGoogleBtnClick() async {
+    Dialogs.showProgessBar(context);
     await _signInWithGoogle().then((user) {
       // print the user and additionalUserInfo
       if (user != null) {
@@ -75,6 +77,8 @@ class _LoginPageState extends State<LoginPage> {
       return await FirebaseAuth.instance.signInWithCredential(credential);
     } catch (e) {
       debugPrint("\n_signInWithGoogle() : $e");
+      Dialogs.showSnackBar(context, 'Something want wrong ( check Internet !)');
+      return null;
     }
   }
 

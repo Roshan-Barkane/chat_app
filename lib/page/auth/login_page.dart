@@ -36,11 +36,17 @@ class _LoginPageState extends State<LoginPage> {
 
 // handle the sign In  with google
   _hendleGoogleBtnClick() async {
+    // show the progress indication
     Dialogs.showProgessBar(context);
+
     await _signInWithGoogle().then((user) {
+      // take the context from showProgresBar in signin page
+      Navigator.pop(context);
+
       // print the user and additionalUserInfo
       if (user != null) {
         print(user.user.runtimeType);
+
         // print the value in console
         debugPrint('\nUser: ${user.user}');
         debugPrint('\nUserAdditionalInfo :${user.additionalUserInfo}');

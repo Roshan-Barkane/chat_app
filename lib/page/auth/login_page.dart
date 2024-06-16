@@ -36,8 +36,8 @@ class _LoginPageState extends State<LoginPage> {
   _hendleGoogleBtnClick() {
     _signInWithGoogle().then((user) {
       // print the user and additionalUserInfo
-      log('\nUser: ${user.user}' as num);
-      log('\nUserAdditionalInfo :${user.additionalUserInfo}' as num);
+      // log('\nUser: ${user.user}'as num);
+      // log('\nUserAdditionalInfo :${user.additionalUserInfo}' as num);
 
       // signIn then go to new HomePage.
       Navigator.pushReplacement(

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:chat_app/main.dart';
@@ -33,38 +34,48 @@ class _LoginPageState extends State<LoginPage> {
   }
 
 // handle the sign In  with google
-  _hendleGoogleBtnClick() {
-    _signInWithGoogle().then((user) {
+  _hendleGoogleBtnClick() async {
+    await _signInWithGoogle().then((user) {
       // print the user and additionalUserInfo
-      // log('\nUser: ${user.user}'as num);
-      // log('\nUserAdditionalInfo :${user.additionalUserInfo}' as num);
+      if (user != null) {
+        print(user.user.runtimeType);
+        // print the value in console
+        debugPrint('\nUser: ${user.user}');
+        debugPrint('\nUserAdditionalInfo :${user.additionalUserInfo}');
 
-      // signIn then go to new HomePage.
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => const HomePage(),
-        ),
-      );
+        // signIn then go to new HomePage.
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const HomePage(),
+          ),
+        );
+      }
     });
   }
 
-  Future<UserCredential> _signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  Future<UserCredential?> _signInWithGoogle() async {
+    try {
+      // check the internet on&off
+      await InternetAddress.lookup('google.com');
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
 
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
 
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+      // Once signed in, return the UserCredential
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+    } catch (e) {
+      debugPrint("\n_signInWithGoogle() : $e");
+    }
   }
 
   // Sign-Out google
@@ -79,8 +90,14 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       // app bar
       appBar: AppBar(
+        backgroundColor: Colors.blue.shade400,
         automaticallyImplyLeading: false,
-        title: const Text("Wellcome to Chatting App"),
+        title: const Text(
+          "Welcome to Chatting App",
+          style: TextStyle(
+              color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+        ),
+        toolbarHeight: 80,
       ),
       body: Stack(
         children: [

@@ -1,6 +1,6 @@
 // import 'package:chat_app/page/home.dart';
 import 'package:chat_app/page/auth/login_page.dart';
-//import 'package:chat_app/page/splash_screen.dart';
+import 'package:chat_app/page/splash_screen.dart';
 import 'package:flutter/material.dart';
 //import 'page/auth/login_page.dart';
 
@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
             titleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
           )),
       // switch the main screen.
-      home: const LoginPage(),
+      home: SplashPage(),
     );
   }
 }

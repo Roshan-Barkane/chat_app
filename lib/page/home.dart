@@ -13,15 +13,34 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       // app bar
       appBar: AppBar(
-        leading: const Icon(Icons.home),
-        title: const Text("Chatting app"),
+        /*leading: const Icon(
+          Icons.home,
+          color: Colors.white,
+        ),*/
+        title: const Text(
+          "Chatting app",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        backgroundColor: Colors.blue.shade400,
+        toolbarHeight: 80,
         actions: [
           // search button serach the person
-          IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.search,
+                color: Colors.white,
+              )),
           // more feature button
-          IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.more_vert,
+                color: Colors.white,
+              )),
         ],
       ),
+      drawer: Drawer(),
       // floating action button
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 10),

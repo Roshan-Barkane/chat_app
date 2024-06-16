@@ -67,6 +67,12 @@ class _LoginPageState extends State<LoginPage> {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
+  // Sign-Out google
+  /* _signOut() async {
+    await FirebaseAuth.instance.signOut();
+    await GoogleSignIn().signOut();
+  }*/
+
   @override
   Widget build(BuildContext context) {
     mq = MediaQuery.of(context).size;

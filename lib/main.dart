@@ -1,5 +1,6 @@
 // import 'package:chat_app/page/home.dart';
-import 'package:chat_app/page/splash_screen.dart';
+import 'package:chat_app/page/auth/login_page.dart';
+//import 'package:chat_app/page/splash_screen.dart';
 import 'package:flutter/material.dart';
 //import 'page/auth/login_page.dart';
 
@@ -29,7 +30,7 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+// This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,11 +47,13 @@ class MyApp extends StatelessWidget {
             backgroundColor: Colors.white,
             titleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
           )),
-      home: SplashPage(),
+      // switch the main screen.
+      home: const LoginPage(),
     );
   }
 }
 
+// initialize the firebase
 _initializeFirebase() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 }

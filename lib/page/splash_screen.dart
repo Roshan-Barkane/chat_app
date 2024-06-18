@@ -1,3 +1,4 @@
+import 'package:chat_app/api/api.dart';
 import 'package:chat_app/main.dart';
 import 'package:chat_app/page/auth/login_page.dart';
 import 'package:chat_app/page/home.dart';
@@ -26,7 +27,7 @@ class _SplashPageState extends State<SplashPage> {
         SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
         SystemChrome.setSystemUIOverlayStyle(
             const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-        if (FirebaseAuth.instance.currentUser != null) {
+        if (APIs.auth.currentUser != null) {
           debugPrint('User : ${FirebaseAuth.instance.currentUser}');
           // if google is signIn the navigate the HomePage
           Navigator.pushReplacement(

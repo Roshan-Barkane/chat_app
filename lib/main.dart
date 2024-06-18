@@ -1,8 +1,5 @@
-// import 'package:chat_app/page/home.dart';
-import 'package:chat_app/page/auth/login_page.dart';
 import 'package:chat_app/page/splash_screen.dart';
 import 'package:flutter/material.dart';
-//import 'page/auth/login_page.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';

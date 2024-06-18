@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+import '../api/api.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -40,14 +44,17 @@ class _HomePageState extends State<HomePage> {
               )),
         ],
       ),
-      drawer: Drawer(),
+      drawer: const Drawer(),
       // floating action button
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: FloatingActionButton(
           backgroundColor: Colors.blue,
           shape: const CircleBorder(),
-          onPressed: () {},
+          onPressed: () async {
+            await APIs.auth.signOut();
+            await GoogleSignIn().signOut();
+          },
           child: const Icon(
             Icons.add_comment,
             size: 25,

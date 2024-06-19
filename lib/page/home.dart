@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../api/api.dart';
+import '../main.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -63,8 +64,12 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        body: ListView.builder(itemBuilder: ((context, index) {
-          return const chatUserCard();
-        })));
+        body: ListView.builder(
+            padding: const EdgeInsets.only(top: 10),
+            physics: const BouncingScrollPhysics(),
+            itemCount: 16,
+            itemBuilder: ((context, index) {
+              return const chatUserCard();
+            })));
   }
 }

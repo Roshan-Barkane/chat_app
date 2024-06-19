@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:chat_app/widgets/chat_user_card.dart';
 
 import 'package:flutter/material.dart';
@@ -64,12 +66,27 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        body: ListView.builder(
-            padding: const EdgeInsets.only(top: 10),
-            physics: const BouncingScrollPhysics(),
-            itemCount: 16,
-            itemBuilder: ((context, index) {
-              return const chatUserCard();
-            })));
+        body: StreamBuilder(
+          // stream are takes to which point to come data
+          stream: APIs.firestore.collection("usres").snapshots(),
+          builder: (context, snapshot) {
+            // check the collaction are present or not
+            if (snapshot.hasData) {
+              final data = snapshot.data?.docs;
+              for (var i in data!) {
+                print('Data : ${i.data()}');
+              }
+            } else {
+              debugPrint("Don't come to data into firebase firestore");
+            }
+            return ListView.builder(
+                padding: const EdgeInsets.only(top: 10),
+                physics: const BouncingScrollPhysics(),
+                itemCount: 16,
+                itemBuilder: ((context, index) {
+                  return const chatUserCard();
+                }));
+          },
+        ));
   }
 }

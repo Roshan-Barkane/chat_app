@@ -1,4 +1,4 @@
-import '../widgets/chat_user_card.dart';
+import 'package:chat_app/widgets/chat_user_card.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -63,11 +63,8 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        body: ListView.builder(
-          itemCount: 1,
-          itemBuilder: (context, index) {
-            return chatUserCard();
-          },
-        ));
+        body: ListView.builder(itemBuilder: ((context, index) {
+          return const chatUserCard();
+        })));
   }
 }

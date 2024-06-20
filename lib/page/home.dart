@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:chat_app/models/chat_user.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -13,6 +14,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // add the dynamic data into list
+  List<ChatUser> list = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,28 +70,32 @@ class _HomePageState extends State<HomePage> {
           // stream are takes to which point to come data
           stream: APIs.firestore.collection("usres").snapshots(),
           builder: (context, snapshot) {
-            // add the dynamic data into list
-            final list = [];
-            // check the collaction are present or not
-            if (snapshot.hasData) {
-              final data = snapshot.data?.docs;
-              for (var i in data!) {
-                // jsonEncode is give the Json formate
-                print('Data : ${jsonEncode(i.data())}');
-                // add data into list
-                list.add(i.data()['name']);
-              }
-            } else {
-              debugPrint("Don't come to data into firebase firestore");
+            /* condition at if any user don't chat and if data are note loaded . */
+            // connection State say data are loading and loaded.
+            switch (snapshot.connectionState) {
+              // if data are loading
+              case ConnectionState.waiting:
+              case ConnectionState.none:
+                return const Center(child: CircularProgressIndicator());
+
+              // if some add all the data are loaded.
+              case ConnectionState.active:
+              case ConnectionState.done:
+                final data = snapshot.data?.docs;
+                // its work on for loop pic one by one data store the list
+                list = data?.map((e) => ChatUser.fromJson(e.data())).toList() ??
+                    [];
+                return ListView.builder(
+                    padding: const EdgeInsets.only(top: 10),
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: 16,
+                    itemBuilder: ((context, index) {
+                      // return const chatUserCard();
+                      return Text("Name : ${list[index]}");
+                    }));
             }
-            return ListView.builder(
-                padding: const EdgeInsets.only(top: 10),
-                physics: const BouncingScrollPhysics(),
-                itemCount: 16,
-                itemBuilder: ((context, index) {
-                  // return const chatUserCard();
-                  return Text("Name : ${list[index]}");
-                }));
+
+            // check the collaction are present or not
           },
         ));
   }

@@ -24,15 +24,15 @@ class ChatUser {
 // those function are used to Convert Json data to dart variable
 // means json data are store local variable and i'm easily used this data.
   ChatUser.fromJson(Map<String, dynamic> json) {
-    image = json['image'];
-    about = json['about'];
-    name = json['name'];
-    createdAt = json['created_at'];
-    lastActive = json['last_active'];
-    id = json['id'];
-    isOnline = json['is_online'];
-    pushToken = json['push_token'];
-    email = json['email'];
+    image = json['image'] ?? '';
+    about = json['about'] ?? '';
+    name = json['name'] ?? '';
+    createdAt = json['created_at'] ?? '';
+    lastActive = json['last_active'] ?? '';
+    id = json['id'] ?? '';
+    isOnline = json['is_online'] ?? '';
+    pushToken = json['push_token'] ?? '';
+    email = json['email'] ?? '';
   }
 // convert custom data to json data
 // that case send the date from server we can use toJos() function.

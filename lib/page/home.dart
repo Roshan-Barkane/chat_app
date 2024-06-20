@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../api/api.dart';
+import '../widgets/chat_user_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -85,14 +86,23 @@ class _HomePageState extends State<HomePage> {
                 // its work on for loop pic one by one data store the list
                 list = data?.map((e) => ChatUser.fromJson(e.data())).toList() ??
                     [];
-                return ListView.builder(
-                    padding: const EdgeInsets.only(top: 10),
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: 16,
-                    itemBuilder: ((context, index) {
-                      // return const chatUserCard();
-                      return Text("Name : ${list[index]}");
-                    }));
+                if (list.isNotEmpty) {
+                  return ListView.builder(
+                      padding: const EdgeInsets.only(top: 10),
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: list.length,
+                      itemBuilder: ((context, index) {
+                        return chatUserCard(user: list[index]);
+                        //return Text("Name : ${list[index]}");
+                      }));
+                } else {
+                  return const Center(
+                    child: Text(
+                      "No Connection Found !",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  );
+                }
             }
 
             // check the collaction are present or not

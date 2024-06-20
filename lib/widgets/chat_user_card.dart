@@ -1,9 +1,11 @@
 import 'package:chat_app/main.dart';
+import 'package:chat_app/models/chat_user.dart';
 
 import 'package:flutter/material.dart';
 
 class chatUserCard extends StatefulWidget {
-  const chatUserCard({super.key});
+  final ChatUser user;
+  const chatUserCard({super.key, required this.user});
 
   @override
   State<chatUserCard> createState() => _chatUserCardState();
@@ -18,21 +20,25 @@ class _chatUserCardState extends State<chatUserCard> {
       elevation: 0.5,
       child: InkWell(
         onTap: () {},
-        child: const ListTile(
+        child: ListTile(
           // user pic
-          leading: CircleAvatar(child: Icon(Icons.person)),
+          leading: const CircleAvatar(child: Icon(Icons.person)),
 
           // user name
-          title: Text("User Name"),
+          title: Text(
+            widget.user.name,
+            style: const TextStyle(
+                fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
+          ),
 
           // user last message
           subtitle: Text(
-            "Last user massage",
+            widget.user.about,
             maxLines: 1,
           ),
 
           // message time are show
-          trailing: Text(
+          trailing: const Text(
             "05:47 AM",
             style: TextStyle(color: Colors.black54),
           ),

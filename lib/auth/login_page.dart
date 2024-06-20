@@ -6,8 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../../api/api.dart';
-import '../../helper/dialogs.dart';
+import '../api/api.dart';
+import '../helper/dialogs.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
     // show the progress indication
     Dialogs.showProgessBar(context);
 
-    await _signInWithGoogle().then((user) {
+    await _signInWithGoogle().then((user) async {
       // take the context from showProgresBar in signin page
       Navigator.pop(context);
 
@@ -51,14 +51,25 @@ class _LoginPageState extends State<LoginPage> {
         // print the value in console
         debugPrint('\nUser: ${user.user}');
         debugPrint('\nUserAdditionalInfo :${user.additionalUserInfo}');
-
-        // signIn then go to new HomePage.
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (_) => const HomePage(),
-          ),
-        );
+        // check user are exist or not them goto homepage
+        if (await (APIs.userExist())) {
+          // ignore: use_build_context_synchronously
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const HomePage(),
+            ),
+          );
+        } else {
+          await APIs.createUser().then((value) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const HomePage(),
+              ),
+            );
+          });
+        }
       }
     });
   }

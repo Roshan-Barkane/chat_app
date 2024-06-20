@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
         ),
         body: StreamBuilder(
           // stream are takes to which point to come data
-          stream: APIs.firestore.collection("usres").snapshots(),
+          stream: APIs.firestore.collection("users").snapshots(),
           builder: (context, snapshot) {
             /* condition at if any user don't chat and if data are note loaded . */
             // connection State say data are loading and loaded.
@@ -104,8 +104,6 @@ class _HomePageState extends State<HomePage> {
                   );
                 }
             }
-
-            // check the collaction are present or not
           },
         ));
   }

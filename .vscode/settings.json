@@ -2,5 +2,6 @@
     "java.configuration.updateBuildConfiguration": "automatic",
     "cSpell.words": [
         "Firestore"
-    ]
+    ],
+    "cmake.sourceDirectory": "D:/Programming/FlutterDev/chat_app/linux"
 }

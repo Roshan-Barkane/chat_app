@@ -1,12 +1,7 @@
-import 'dart:math';
-
-import 'package:chat_app/widgets/chat_user_card.dart';
-
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../api/api.dart';
-import '../main.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

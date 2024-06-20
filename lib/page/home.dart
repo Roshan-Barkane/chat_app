@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -71,7 +73,8 @@ class _HomePageState extends State<HomePage> {
             if (snapshot.hasData) {
               final data = snapshot.data?.docs;
               for (var i in data!) {
-                print('Data : ${i.data()}');
+                // jsonEncode is give the Json formate
+                print('Data : ${jsonEncode(i.data())}');
                 // add data into list
                 list.add(i.data()['name']);
               }

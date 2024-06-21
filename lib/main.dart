@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
             titleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
           )),
       // switch the main screen.
-      home: SplashPage(),
+      home: const SplashPage(),
     );
   }
 }

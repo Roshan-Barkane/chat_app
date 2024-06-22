@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:chat_app/models/chat_user.dart';
+import 'package:chat_app/page/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -42,7 +43,12 @@ class _HomePageState extends State<HomePage> {
                 )),
             // more feature button
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => ProfilePage(user: list[0])));
+                },
                 icon: const Icon(
                   Icons.more_vert,
                   color: Colors.white,

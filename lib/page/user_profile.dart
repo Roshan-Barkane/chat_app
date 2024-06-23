@@ -59,17 +59,21 @@ class _ProfilePageState extends State<ProfilePage> {
               width: mq.width,
               height: mq.height * .05,
             ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(mq.height * .1),
-              // cachedNetworkImage are used to dynamic load image
-              child: CachedNetworkImage(
-                width: mq.height * .2,
-                height: mq.height * .2,
-                fit: BoxFit.fill,
-                imageUrl: widget.user.image,
-                errorWidget: (context, url, error) =>
-                    const CircleAvatar(child: Icon(Icons.person)),
-              ),
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(mq.height * .1),
+                  // cachedNetworkImage are used to dynamic load image
+                  child: CachedNetworkImage(
+                    width: mq.height * .2,
+                    height: mq.height * .2,
+                    fit: BoxFit.fill,
+                    imageUrl: widget.user.image,
+                    errorWidget: (context, url, error) =>
+                        const CircleAvatar(child: Icon(Icons.person)),
+                  ),
+                ),
+              ],
             ),
             // for adding some space
             SizedBox(

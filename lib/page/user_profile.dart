@@ -76,6 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
               width: mq.width,
               height: mq.height * .03,
             ),
+            // show email from the current user
             Text(
               widget.user.email,
               style: const TextStyle(color: Colors.black87, fontSize: 20),
@@ -85,6 +86,7 @@ class _ProfilePageState extends State<ProfilePage> {
               width: mq.width,
               height: mq.height * .05,
             ),
+            // for user name field
             TextFormField(
               initialValue: widget.user.name,
               decoration: InputDecoration(
@@ -105,6 +107,7 @@ class _ProfilePageState extends State<ProfilePage> {
               width: mq.width,
               height: mq.height * .02,
             ),
+            // for user about field
             TextFormField(
               initialValue: widget.user.about,
               decoration: InputDecoration(
@@ -126,20 +129,22 @@ class _ProfilePageState extends State<ProfilePage> {
               width: mq.width,
               height: mq.height * .02,
             ),
+            // update button
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
                 shape: const StadiumBorder(),
-                minimumSize: Size(mq.width * .4, mq.height * .055),
+                minimumSize: Size(mq.width * .05, mq.height * .06),
               ),
               onPressed: () {},
               icon: const Icon(
                 Icons.edit,
                 color: Colors.white,
+                size: 28,
               ),
               label: const Text(
                 "Update",
-                style: TextStyle(fontSize: 17, color: Colors.white),
+                style: TextStyle(fontSize: 18, color: Colors.white),
               ),
             ),
           ],

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/main.dart';
 import 'package:chat_app/models/chat_user.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -31,22 +32,26 @@ class _ProfilePageState extends State<ProfilePage> {
       // floating action button
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 10),
-        child: FloatingActionButton(
-          backgroundColor: Colors.blue,
-          shape: const CircleBorder(),
+        child: FloatingActionButton.extended(
+          backgroundColor: Colors.redAccent,
+          //shape: const CircleBorder(),
           onPressed: () async {
             await APIs.auth.signOut();
             await GoogleSignIn().signOut();
           },
-          child: const Icon(
-            Icons.add_comment,
+          icon: const Icon(
+            Icons.logout_rounded,
             size: 25,
             color: Colors.white,
+          ),
+          label: const Text(
+            "LogOut",
+            style: TextStyle(fontSize: 17, color: Colors.white),
           ),
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: mq.width * .5),
+        padding: EdgeInsets.symmetric(horizontal: mq.width * .1),
         child: Column(
           children: [
             // for adding some space
@@ -69,15 +74,74 @@ class _ProfilePageState extends State<ProfilePage> {
             // for adding some space
             SizedBox(
               width: mq.width,
-              height: mq.height * .05,
+              height: mq.height * .03,
             ),
             Text(
               widget.user.email,
               style: const TextStyle(color: Colors.black87, fontSize: 20),
             ),
+            // for adding some space
+            SizedBox(
+              width: mq.width,
+              height: mq.height * .05,
+            ),
             TextFormField(
               initialValue: widget.user.name,
-            )
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.blue),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  prefixIcon: const Icon(
+                    Icons.person,
+                    color: Colors.blue,
+                    size: 30,
+                  ),
+                  hintText: "eg. Happy Singh",
+                  label: const Text("Name")),
+            ),
+            // for adding some space
+            SizedBox(
+              width: mq.width,
+              height: mq.height * .02,
+            ),
+            TextFormField(
+              initialValue: widget.user.about,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.blue),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                prefixIcon: const Icon(
+                  Icons.info_outlined,
+                  color: Colors.blue,
+                  size: 30,
+                ),
+                label: const Text("About"),
+                hintText: "eg. Felling Happy",
+              ),
+            ),
+            // for adding some space
+            SizedBox(
+              width: mq.width,
+              height: mq.height * .02,
+            ),
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                shape: const StadiumBorder(),
+                minimumSize: Size(mq.width * .4, mq.height * .055),
+              ),
+              onPressed: () {},
+              icon: const Icon(
+                Icons.edit,
+                color: Colors.white,
+              ),
+              label: const Text(
+                "Update",
+                style: TextStyle(fontSize: 17, color: Colors.white),
+              ),
+            ),
           ],
         ),
       ),

@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (_) => ProfilePage(user: list[0])));
+                          builder: (_) => ProfilePage(user: list[1])));
                 },
                 icon: const Icon(
                   Icons.more_vert,
@@ -63,8 +63,9 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: Colors.blue,
             shape: const CircleBorder(),
             onPressed: () async {
-              await APIs.auth.signOut();
-              await GoogleSignIn().signOut();
+              // await APIs.auth.signOut();
+              // await GoogleSignIn().signOut();
+              setState(() {});
             },
             child: const Icon(
               Icons.add_comment,

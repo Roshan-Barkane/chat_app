@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chat_app/auth/login_page.dart';
+import 'package:chat_app/helper/dialogs.dart';
 import 'package:chat_app/main.dart';
 import 'package:chat_app/models/chat_user.dart';
 import 'package:flutter/cupertino.dart';
@@ -36,8 +38,23 @@ class _ProfilePageState extends State<ProfilePage> {
           backgroundColor: Colors.redAccent,
           //shape: const CircleBorder(),
           onPressed: () async {
-            await APIs.auth.signOut();
-            await GoogleSignIn().signOut();
+            // for show progress bar
+            Dialogs.showProgessBar(context);
+
+            // sign out from app
+            await APIs.auth.signOut().then((value) async {
+              await GoogleSignIn().signOut().then((value) {
+                // for remove progress var
+                Navigator.pop(context);
+
+                // for moving to home page
+                Navigator.pop(context);
+
+                // replacing home page to login page
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()));
+              });
+            });
           },
           icon: const Icon(
             Icons.logout_rounded,

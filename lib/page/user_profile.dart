@@ -73,6 +73,21 @@ class _ProfilePageState extends State<ProfilePage> {
                         const CircleAvatar(child: Icon(Icons.person)),
                   ),
                 ),
+                // edit image button
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: MaterialButton(
+                    onPressed: () {},
+                    color: Colors.white,
+                    elevation: 2,
+                    shape: const CircleBorder(),
+                    child: const Icon(
+                      Icons.edit,
+                      color: Colors.blue,
+                    ),
+                  ),
+                )
               ],
             ),
             // for adding some space

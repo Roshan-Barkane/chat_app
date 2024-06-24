@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (_) => ProfilePage(user: list[1])));
+                          builder: (_) => ProfilePage(user: list[0])));
                 },
                 icon: const Icon(
                   Icons.more_vert,
@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
         ),
         body: StreamBuilder(
           // stream are takes to which point to come data
-          stream: APIs.firestore.collection("users").snapshots(),
+          stream: APIs.getAllUser(),
           builder: (context, snapshot) {
             /* condition at if any user don't chat and if data are note loaded . */
             // connection State say data are loading and loaded.

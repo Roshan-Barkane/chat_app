@@ -38,4 +38,12 @@ class APIs {
         .doc(user.uid)
         .set(chatuser.toJson());
   }
+
+  // get the all present user in firebase database
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUser() {
+    return firestore
+        .collection("users")
+        .where('id', isNotEqualTo: user.uid)
+        .snapshots();
+  }
 }

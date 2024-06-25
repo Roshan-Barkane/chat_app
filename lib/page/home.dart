@@ -18,6 +18,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // add the dynamic data into list
   List<ChatUser> list = [];
+
+  @override
+  void initState() {
+    super.initState();
+    APIs.getSelfInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,9 +52,11 @@ class _HomePageState extends State<HomePage> {
             IconButton(
                 onPressed: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => ProfilePage(user: list[1])));
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => ProfilePage(user: APIs.self),
+                    ),
+                  );
                 },
                 icon: const Icon(
                   Icons.more_vert,
@@ -76,7 +85,7 @@ class _HomePageState extends State<HomePage> {
         ),
         body: StreamBuilder(
           // stream are takes to which point to come data
-          stream: APIs.firestore.collection("users").snapshots(),
+          stream: APIs.getAllUser(),
           builder: (context, snapshot) {
             /* condition at if any user don't chat and if data are note loaded . */
             // connection State say data are loading and loaded.

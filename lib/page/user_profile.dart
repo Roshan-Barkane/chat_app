@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chat_app/auth/login_page.dart';
+import 'package:chat_app/helper/dialogs.dart';
 import 'package:chat_app/main.dart';
 import 'package:chat_app/models/chat_user.dart';
 import 'package:flutter/cupertino.dart';
@@ -36,8 +38,23 @@ class _ProfilePageState extends State<ProfilePage> {
           backgroundColor: Colors.redAccent,
           //shape: const CircleBorder(),
           onPressed: () async {
-            await APIs.auth.signOut();
-            await GoogleSignIn().signOut();
+            // for show progress bar
+            Dialogs.showProgessBar(context);
+
+            // sign out from app
+            await APIs.auth.signOut().then((value) async {
+              await GoogleSignIn().signOut().then((value) {
+                // for remove progress var
+                Navigator.pop(context);
+
+                // for moving to home page
+                Navigator.pop(context);
+
+                // replacing home page to login page
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()));
+              });
+            });
           },
           icon: const Icon(
             Icons.logout_rounded,
@@ -59,17 +76,36 @@ class _ProfilePageState extends State<ProfilePage> {
               width: mq.width,
               height: mq.height * .05,
             ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(mq.height * .1),
-              // cachedNetworkImage are used to dynamic load image
-              child: CachedNetworkImage(
-                width: mq.height * .2,
-                height: mq.height * .2,
-                fit: BoxFit.fill,
-                imageUrl: widget.user.image,
-                errorWidget: (context, url, error) =>
-                    const CircleAvatar(child: Icon(Icons.person)),
-              ),
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(mq.height * .1),
+                  // cachedNetworkImage are used to dynamic load image
+                  child: CachedNetworkImage(
+                    width: mq.height * .2,
+                    height: mq.height * .2,
+                    fit: BoxFit.fill,
+                    imageUrl: widget.user.image,
+                    errorWidget: (context, url, error) =>
+                        const CircleAvatar(child: Icon(Icons.person)),
+                  ),
+                ),
+                // edit image button
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: MaterialButton(
+                    onPressed: () {},
+                    color: Colors.white,
+                    elevation: 2,
+                    shape: const CircleBorder(),
+                    child: const Icon(
+                      Icons.edit,
+                      color: Colors.blue,
+                    ),
+                  ),
+                )
+              ],
             ),
             // for adding some space
             SizedBox(

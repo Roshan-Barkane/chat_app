@@ -2,6 +2,7 @@
 import 'package:chat_app/models/chat_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
 class APIs {
   // create instance of FirebaseAuthentication
@@ -10,6 +11,8 @@ class APIs {
   // create instance of Firebase FireStore
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  // for storing self information
+  static late ChatUser self;
   // get the current user
   static User get user => auth.currentUser!;
 
@@ -17,6 +20,19 @@ class APIs {
   static Future<bool> userExist() async {
     // check the user id in auth.currentUser!.uid
     return (await firestore.collection('users').doc(user.uid).get()).exists;
+  }
+
+  // for getting current user info
+  static Future<void> getSelfInfo() async {
+    // check the user id in auth.currentUser!.uid
+    await firestore.collection('users').doc(user.uid).get().then((user) async {
+      if (user.exists) {
+        self = ChatUser.fromJson(user.data()!);
+        debugPrint("User Date : ${user.data()}");
+      } else {
+        await createUser().then((value) => getSelfInfo());
+      }
+    });
   }
 
   // for create new user
@@ -37,5 +53,13 @@ class APIs {
         .collection('users')
         .doc(user.uid)
         .set(chatuser.toJson());
+  }
+
+  // get the all present user in firebase database
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUser() {
+    return firestore
+        .collection("users")
+        .where('id', isNotEqualTo: user.uid)
+        .snapshots();
   }
 }

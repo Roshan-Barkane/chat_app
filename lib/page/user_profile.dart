@@ -195,7 +195,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        debugPrint("inside volidate");
+                        _formKey.currentState?.save();
+                        debugPrint("inside Volidater");
                       }
                     },
                     icon: const Icon(

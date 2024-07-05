@@ -12,7 +12,7 @@ class APIs {
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   // for storing self information
-  static late ChatUser self;
+  static late ChatUser me;
   // get the current user
   static User get user => auth.currentUser!;
 
@@ -27,7 +27,7 @@ class APIs {
     // check the user id in auth.currentUser!.uid
     await firestore.collection('users').doc(user.uid).get().then((user) async {
       if (user.exists) {
-        self = ChatUser.fromJson(user.data()!);
+        me = ChatUser.fromJson(user.data()!);
         debugPrint("User Date : ${user.data()}");
       } else {
         await createUser().then((value) => getSelfInfo());
@@ -69,6 +69,6 @@ class APIs {
     await firestore
         .collection('users')
         .doc(user.uid)
-        .update({'name': self.name, 'about': self.about});
+        .update({'name': me.name, 'about': me.about});
   }
 }

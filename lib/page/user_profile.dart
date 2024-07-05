@@ -46,21 +46,25 @@ class _ProfilePageState extends State<ProfilePage> {
               Dialogs.showProgessBar(context);
 
               // sign out from app
-              await APIs.auth.signOut().then((value) async {
-                await GoogleSignIn().signOut().then((value) {
-                  // for remove progress var
-                  Navigator.pop(context);
+              await APIs.auth.signOut().then(
+                (value) async {
+                  await GoogleSignIn().signOut().then(
+                    (value) {
+                      // for remove progress var
+                      Navigator.pop(context);
 
-                  // for moving to home page
-                  Navigator.pop(context);
+                      // for moving to home page
+                      Navigator.pop(context);
 
-                  // replacing home page to login page
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginPage()));
-                });
-              });
+                      // replacing home page to login page
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()));
+                    },
+                  );
+                },
+              );
             },
             icon: const Icon(
               Icons.logout_rounded,
@@ -134,7 +138,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   // for user name field
                   TextFormField(
                     // get the value textfield to api self variable
-                    onSaved: (newVal) => APIs.self.name = newVal ?? "",
+                    onSaved: (newVal) => APIs.me.name = newVal ?? "",
                     // check the validate user textfield are text or empty
                     validator: (value) => value != null && value.isNotEmpty
                         ? null
@@ -161,7 +165,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   // for user about field
                   TextFormField(
                     // get the value textfield to api self variable
-                    onSaved: (newVal) => APIs.self.about = newVal ?? "",
+                    onSaved: (newVal) => APIs.me.about = newVal ?? "",
                     // check the validate user textfield are text or empty
                     validator: (value) => value != null && value.isNotEmpty
                         ? null
@@ -196,7 +200,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState?.save();
-                        debugPrint("inside Volidater");
+                        // debugPrint("inside Volidater !");
+                        APIs.updateUserInfo().then(
+                          (value) {
+                            Dialogs.showSnackBar(
+                                context, 'Profile Update Successfully !');
+                          },
+                        );
                       }
                     },
                     icon: const Icon(

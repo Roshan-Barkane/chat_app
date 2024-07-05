@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   // add the dynamic data into list
   List<ChatUser> _list = [];
   // for store searching items
-  final List<ChatUser> _serchList = [];
+  final List<ChatUser> _searchList = [];
 
   // for storing search status
   bool _isSearching = false;
@@ -56,15 +56,15 @@ class _HomePageState extends State<HomePage> {
                 // when search text change then update search list
                 onChanged: (value) {
                   // search logic
-                  _serchList.clear();
+                  _searchList.clear();
 
                   for (var i in _list) {
                     if (i.name.toLowerCase().contains(value.toUpperCase()) ||
                         i.email.toLowerCase().contains(value.toUpperCase())) {
-                      _serchList.add(i);
+                      _searchList.add(i);
                     }
                     setState(() {
-                      _serchList;
+                      _searchList;
                     });
                   }
                 },
@@ -148,9 +148,11 @@ class _HomePageState extends State<HomePage> {
                 return ListView.builder(
                   padding: const EdgeInsets.only(top: 10),
                   physics: const BouncingScrollPhysics(),
-                  itemCount: _list.length,
+                  // check item are present _searchlist them user _searchlist no
+                  itemCount: _isSearching ? _searchList.length : _list.length,
                   itemBuilder: ((context, index) {
-                    return chatUserCard(user: _list[index]);
+                    return chatUserCard(
+                        user: _isSearching ? _searchList[index] : _list[index]);
                     //return Text("Name : ${list[index]}");
                   }),
                 );

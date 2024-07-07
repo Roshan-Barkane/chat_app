@@ -1,6 +1,8 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
     "cSpell.words": [
+        "autofocus",
+        "Cupertino",
         "Firestore"
     ],
     "cmake.sourceDirectory": "D:/Programming/FlutterDev/chat_app/linux"

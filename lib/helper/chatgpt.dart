@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
                   _searchList.clear();
 
                   for (var i in _list) {
-                    if (i.name.toLowerCase().contains(val.toLowerCase()) ||
+                    if (i.name.toLowerCase().contains(val.toUpperCase()) ||
                         i.email.toLowerCase().contains(val.toLowerCase())) {
                       _searchList.add(i);
                     }

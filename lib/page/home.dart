@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
                 // when search text change then update search list
                 onChanged: (value) {
                   // search logic
-                  _searchList.clear();
+                  //_searchList.clear();
 
                   for (var i in _list) {
                     if (i.name.toLowerCase().contains(value.toUpperCase()) ||

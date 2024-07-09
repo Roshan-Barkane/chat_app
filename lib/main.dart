@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'my khusi',
+      title: 'project 1',
       theme: ThemeData(
           useMaterial3: true,
           appBarTheme: const AppBarTheme(

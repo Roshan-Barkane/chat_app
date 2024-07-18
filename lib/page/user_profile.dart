@@ -1,4 +1,8 @@
 import 'dart:io';
+<<<<<<< HEAD
+=======
+import 'dart:math';
+>>>>>>> 6a34ad7e9e06ab4b0b3b72dd2a2393382c138d13
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/auth/login_page.dart';

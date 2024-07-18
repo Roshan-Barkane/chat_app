@@ -53,9 +53,12 @@ dependencies:
 # for take the image from gallery and camera
   image_picker: ^1.0.8
 
+<<<<<<< HEAD
 # for accessing Firebase Storage (for uploading images)
   firebase_storage: ^11.0.7
 
+=======
+>>>>>>> 6a34ad7e9e06ab4b0b3b72dd2a2393382c138d13
 dev_dependencies:
   flutter_test:
     sdk: flutter

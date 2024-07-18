@@ -26,7 +26,7 @@ class _SplashPageState extends State<SplashPage> {
         // exit the full screen
         SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
         SystemChrome.setSystemUIOverlayStyle(
-            const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+            const SystemUiOverlayStyle(systemNavigationBarColor: Colors.white));
         if (APIs.auth.currentUser != null) {
           debugPrint('User : ${FirebaseAuth.instance.currentUser}');
           // if google is signIn the navigate the HomePage

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/auth/login_page.dart';
 import 'package:chat_app/helper/dialogs.dart';
@@ -6,6 +8,7 @@ import 'package:chat_app/models/chat_user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../api/api.dart';
 
@@ -19,6 +22,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final _formKey = GlobalKey<FormState>();
+  String? _image;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -91,24 +96,45 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   Stack(
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(mq.height * .1),
-                        // cachedNetworkImage are used to dynamic load image
-                        child: CachedNetworkImage(
-                          width: mq.height * .2,
-                          height: mq.height * .2,
-                          fit: BoxFit.fill,
-                          imageUrl: widget.user.image,
-                          errorWidget: (context, url, error) =>
-                              const CircleAvatar(child: Icon(Icons.person)),
-                        ),
-                      ),
+                      _image != null
+                          ?
+                          // Local image show the profile Picture
+                          ClipRRect(
+                              borderRadius:
+                                  BorderRadius.circular(mq.height * .1),
+                              // cachedNetworkImage are used to dynamic load image
+                              child: Image.file(
+                                File(_image!),
+                                width: mq.height * .2,
+                                height: mq.height * .2,
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          :
+
+                          // Server image are show Profile Picture
+                          ClipRRect(
+                              borderRadius:
+                                  BorderRadius.circular(mq.height * .1),
+                              // cachedNetworkImage are used to dynamic load image
+                              child: CachedNetworkImage(
+                                width: mq.height * .2,
+                                height: mq.height * .2,
+                                fit: BoxFit.cover,
+                                imageUrl: widget.user.image,
+                                errorWidget: (context, url, error) =>
+                                    const CircleAvatar(
+                                        child: Icon(Icons.person)),
+                              ),
+                            ),
                       // edit image button
                       Positioned(
                         bottom: 0,
                         right: 0,
                         child: MaterialButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _showBottomsheet();
+                          },
                           color: Colors.white,
                           elevation: 2,
                           shape: const CircleBorder(),
@@ -225,6 +251,88 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
+    );
+  }
+
+  // bottom sheet for picking a profile picture for user
+  void _showBottomsheet() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+      builder: (_) {
+        return ListView(
+          /* shrinkWrap property : This constructor is appropriate for list views with a small number of children because constructing the [List] requires doing work for every child that could possibly be displayed in the list view instead of just those children that are actually visible. */
+          shrinkWrap: true,
+          padding:
+              EdgeInsets.only(top: mq.height * .02, bottom: mq.height * .08),
+          children: [
+            // pick profile picture label
+            const Text(
+              "Pick Profile Picture",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+            ),
+            SizedBox(height: mq.height * .02),
+            // buttons
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                // pick image form gallery button
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      // fixedSize take a size on width ans height
+                      fixedSize: Size(mq.width * .3, mq.height * .14)),
+                  onPressed: () async {
+                    final ImagePicker picker = ImagePicker();
+                    // Pick an image.
+                    final XFile? image =
+                        await picker.pickImage(source: ImageSource.gallery);
+                    if (image != null) {
+                      debugPrint(
+                          " Image Path :${image.path} --MimeType :${image.mimeType}");
+                      setState(() {
+                        _image = image.path;
+                      });
+                      // for hiding bottom sheet
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: Image.asset(
+                    "images/gallery.png",
+                  ),
+                ),
+                // take image form Camera button
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      // fixedSize take a size on width ans height
+                      fixedSize: Size(mq.width * .3, mq.height * .14)),
+                  onPressed: () async {
+                    final ImagePicker picker = ImagePicker();
+                    // Pick an image.
+                    final XFile? image =
+                        await picker.pickImage(source: ImageSource.camera);
+                    if (image != null) {
+                      debugPrint(" Image Path :${image.path} ");
+                      setState(() {
+                        _image = image.path;
+                      });
+                      // for hiding bottom sheet
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: Image.asset(
+                    "images/photo.png",
+                  ),
+                ),
+              ],
+            )
+          ],
+        );
+      },
     );
   }
 }

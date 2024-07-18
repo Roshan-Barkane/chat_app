@@ -37,8 +37,12 @@ class _HomePageState extends State<HomePage> {
         // if search is on & back button is pressed then close search
         // or else close the current Screen on click back button
         onWillPop: () {
+          /*Called to veto attempts by the user to dismiss the enclosing [ModalRoute].
+            If the callback returns a Future that resolves to false, the enclosing route will not be popped */
           if (_isSearching) {
-            _isSearching = !_isSearching;
+            setState(() {
+              _isSearching = !_isSearching;
+            });
             return Future.value(false);
           } else {
             return Future.value(true);

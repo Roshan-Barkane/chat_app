@@ -239,13 +239,43 @@ class _ProfilePageState extends State<ProfilePage> {
               topLeft: Radius.circular(30), topRight: Radius.circular(30))),
       builder: (_) {
         return ListView(
-          padding: EdgeInsets.only(top: mq.height * .02),
+          /* shrinkWrap property : This constructor is appropriate for list views with a small number of children because constructing the [List] requires doing work for every child that could possibly be displayed in the list view instead of just those children that are actually visible. */
+          shrinkWrap: true,
+          padding:
+              EdgeInsets.only(top: mq.height * .02, bottom: mq.height * .08),
           children: [
-            Text(
+            // pick profile picture label
+            const Text(
               "Pick Profile Picture",
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
             ),
+            // buttons
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                // pick image form gallery button
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        // fixedSize take a size on width ans height
+                        fixedSize: Size(mq.width * .3, mq.height * .14)),
+                    onPressed: () {},
+                    child: Image.asset(
+                      "images/gallery.png",
+                    )),
+                // take image form Camera button
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        // fixedSize take a size on width ans height
+                        fixedSize: Size(mq.width * .3, mq.height * .14)),
+                    onPressed: () {},
+                    child: Image.asset(
+                      "images/photo.png",
+                    ))
+              ],
+            )
           ],
         );
       },

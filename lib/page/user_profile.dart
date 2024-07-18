@@ -108,7 +108,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         bottom: 0,
                         right: 0,
                         child: MaterialButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _showBottomsheet();
+                          },
                           color: Colors.white,
                           elevation: 2,
                           shape: const CircleBorder(),
@@ -225,6 +227,28 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
+    );
+  }
+
+  // bottom sheet for picking a profile picture for user
+  void _showBottomsheet() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+      builder: (_) {
+        return ListView(
+          padding: EdgeInsets.only(top: mq.height * .02),
+          children: [
+            Text(
+              "Pick Profile Picture",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+            ),
+          ],
+        );
+      },
     );
   }
 }

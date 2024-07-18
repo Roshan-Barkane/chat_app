@@ -250,6 +250,7 @@ class _ProfilePageState extends State<ProfilePage> {
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
             ),
+            SizedBox(height: mq.height * .02),
             // buttons
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

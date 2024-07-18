@@ -43,8 +43,15 @@ dependencies:
   
 # for sign In the firebase
   google_sign_in: ^6.1.6
+
+# for store data from firestore  
   cloud_firestore: ^4.14.0
+
+# for take the image from firestore database  
   cached_network_image: ^3.3.1
+
+# for take the image from gallery and camera
+  image_picker: ^1.0.8
 
 dev_dependencies:
   flutter_test:

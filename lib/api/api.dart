@@ -1,4 +1,6 @@
 // add the library related to firebase authentication.
+import 'dart:io';
+
 import 'package:chat_app/models/chat_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,7 +15,7 @@ class APIs {
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   // create instance of Firebase Storage
-  static FirebaseStorage Storage = FirebaseStorage.instance;
+  static FirebaseStorage storage = FirebaseStorage.instance;
 
   // for storing self information
   static late ChatUser me;
@@ -74,5 +76,15 @@ class APIs {
         .collection('users')
         .doc(user.uid)
         .update({'name': me.name, 'about': me.about});
+  }
+
+  // updata profile picture of user
+  static Future<void> updateProfilePicture(File file) async {
+    // get the extension of file
+    final ext = file.path.split('.').last;
+    debugPrint("Extansion : $ext");
+    // create the file in firebase stored
+    final ref = storage.ref().child("Profile_Picture/${user.uid}.$ext");
+    ref.putFile(file);
   }
 }

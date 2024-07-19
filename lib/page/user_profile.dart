@@ -1,16 +1,12 @@
 import 'dart:io';
-<<<<<<< HEAD
-=======
-import 'dart:math';
->>>>>>> 6a34ad7e9e06ab4b0b3b72dd2a2393382c138d13
 
+import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/auth/login_page.dart';
 import 'package:chat_app/helper/dialogs.dart';
 import 'package:chat_app/main.dart';
 import 'package:chat_app/models/chat_user.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -292,14 +288,16 @@ class _ProfilePageState extends State<ProfilePage> {
                   onPressed: () async {
                     final ImagePicker picker = ImagePicker();
                     // Pick an image.
-                    final XFile? image =
-                        await picker.pickImage(source: ImageSource.gallery);
+                    final XFile? image = await picker.pickImage(
+                        source: ImageSource.gallery, imageQuality: 80);
                     if (image != null) {
                       debugPrint(
                           " Image Path :${image.path} --MimeType :${image.mimeType}");
                       setState(() {
                         _image = image.path;
                       });
+                      // call the updataProfilePicture
+                      APIs.updateProfilePicture(File(_image!));
                       // for hiding bottom sheet
                       Navigator.pop(context);
                     }
@@ -317,13 +315,15 @@ class _ProfilePageState extends State<ProfilePage> {
                   onPressed: () async {
                     final ImagePicker picker = ImagePicker();
                     // Pick an image.
-                    final XFile? image =
-                        await picker.pickImage(source: ImageSource.camera);
+                    final XFile? image = await picker.pickImage(
+                        source: ImageSource.camera, imageQuality: 80);
                     if (image != null) {
                       debugPrint(" Image Path :${image.path} ");
                       setState(() {
                         _image = image.path;
                       });
+                      // call the updataProfilePicture
+                      APIs.updateProfilePicture(File(_image!));
                       // for hiding bottom sheet
                       Navigator.pop(context);
                     }

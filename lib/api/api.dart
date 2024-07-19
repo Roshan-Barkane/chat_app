@@ -85,6 +85,19 @@ class APIs {
     debugPrint("Extansion : $ext");
     // create the file in firebase stored
     final ref = storage.ref().child("Profile_Picture/${user.uid}.$ext");
-    ref.putFile(file);
+    // put the file local to server
+    await ref
+        .putFile(file, SettableMetadata(contentType: 'image/$ext'))
+        .then((p0) {
+      // show the massage we know data are transferred done !
+      debugPrint("Data Transferred : ${p0.bytesTransferred / 100} kb");
+    });
+    // get the url on the server
+    me.image = await ref.getDownloadURL();
+    // update the image only
+    await firestore
+        .collection('users')
+        .doc(user.uid)
+        .update({'image': me.image});
   }
 }

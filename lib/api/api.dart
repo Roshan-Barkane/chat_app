@@ -12,6 +12,9 @@ class APIs {
   // create instance of Firebase FireStore
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  // create instance of Firebase Storage
+  static FirebaseStorage Storage = FirebaseStorage.instance;
+
   // for storing self information
   static late ChatUser me;
   // get the current user

@@ -1,16 +1,12 @@
 import 'dart:io';
-<<<<<<< HEAD
-=======
-import 'dart:math';
->>>>>>> 6a34ad7e9e06ab4b0b3b72dd2a2393382c138d13
 
+import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/auth/login_page.dart';
 import 'package:chat_app/helper/dialogs.dart';
 import 'package:chat_app/main.dart';
 import 'package:chat_app/models/chat_user.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 

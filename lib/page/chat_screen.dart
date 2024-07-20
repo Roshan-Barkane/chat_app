@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/main.dart';
 import 'package:chat_app/models/chat_user.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -14,11 +15,12 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   @override
+  final _list = ["Hii", "Who are you man?", "okk i am jack"];
   Widget build(BuildContext context) {
     return Scaffold(
       // for custom app bar
       appBar: AppBar(
-        toolbarHeight: 80,
+        toolbarHeight: 100,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.blue,
         // for call the _appBar function
@@ -26,7 +28,55 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       // body
       body: Column(
-        children: [_chatInput()],
+        children: [
+          Expanded(
+            child: StreamBuilder(
+              // stream are takes to which point to come data
+              //  stream: APIs.getAllUser(),
+              stream: Stream.value(_list[0]),
+              builder: (context, snapshot) {
+                /* condition at if any user don't chat and if data are not loaded. */
+                // connection State say data are loading and loaded.
+                switch (snapshot.connectionState) {
+                  // if data are loading
+                  case ConnectionState.waiting:
+                  case ConnectionState.none:
+                    return const Center(child: CircularProgressIndicator());
+
+                  // if some add all the data are loaded.
+                  case ConnectionState.active:
+                  case ConnectionState.done:
+                    /*  final data = snapshot.data?.docs;
+                    // its work on for loop pic one by one data store the list
+                    _list =
+                        data?.map((e) => ChatUser.fromJson(e.data())).toList() ??
+                            [];*/
+
+                    if (_list.isNotEmpty) {
+                      return ListView.builder(
+                        padding: const EdgeInsets.only(top: 10),
+                        physics: const BouncingScrollPhysics(),
+                        // check item are present _searchList then use _searchList otherwise use _list
+                        itemCount: _list.length,
+                        itemBuilder: ((context, index) {
+                          return Text("message : ${_list[index]}");
+                        }),
+                      );
+                    } else {
+                      return const Center(
+                        child: Text(
+                          "Say Hii 👋🏻",
+                          style: TextStyle(fontSize: 30),
+                        ),
+                      );
+                    }
+                }
+              },
+            ),
+          ),
+          _chatInput(),
+          const SizedBox(height: 45),
+        ],
       ),
     );
   }
@@ -153,6 +203,7 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
           ),
+
           // for send message button
           MaterialButton(
               onPressed: () {},

@@ -38,21 +38,24 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             // for make button
             IconButton(
-                onPressed: () {},
+                onPressed: () => Navigator.pop(context),
                 icon: const Icon(
                   Icons.arrow_back_ios_new_outlined,
                   color: Colors.white,
                 )),
             // for profile picture in current user chat me
-            ClipRRect(
-              borderRadius: BorderRadius.circular(mq.height * .03),
-              // cachedNetworkImage are used to dynamic load image
-              child: CachedNetworkImage(
-                width: mq.height * .05,
-                height: mq.height * .05,
-                imageUrl: widget.user.image,
-                errorWidget: (context, url, error) =>
-                    const CircleAvatar(child: Icon(Icons.person)),
+            InkWell(
+              onTap: () {},
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(mq.height * .03),
+                // cachedNetworkImage are used to dynamic load image
+                child: CachedNetworkImage(
+                  width: mq.height * .05,
+                  height: mq.height * .05,
+                  imageUrl: widget.user.image,
+                  errorWidget: (context, url, error) =>
+                      const CircleAvatar(child: Icon(Icons.person)),
+                ),
               ),
             ),
             const SizedBox(

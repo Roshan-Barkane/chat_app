@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/main.dart';
 import 'package:chat_app/models/chat_user.dart';
@@ -48,9 +50,10 @@ class _ChatScreenState extends State<ChatScreen> {
                   // if some add all the data are loaded.
                   case ConnectionState.active:
                   case ConnectionState.done:
-                    /*  final data = snapshot.data?.docs;
+                    final data = snapshot.data?.docs;
+                    debugPrint("Data :${jsonEncode(data![0].data())}");
                     // its work on for loop pic one by one data store the list
-                    _list =
+                    /*_list =
                         data?.map((e) => ChatUser.fromJson(e.data())).toList() ??
                             [];*/
 

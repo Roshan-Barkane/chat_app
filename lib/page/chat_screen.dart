@@ -24,6 +24,10 @@ class _ChatScreenState extends State<ChatScreen> {
         // for call the _appBar function
         flexibleSpace: _appBar(),
       ),
+      // body
+      body: Column(
+        children: [_chatInput()],
+      ),
     );
   }
 
@@ -87,6 +91,37 @@ class _ChatScreenState extends State<ChatScreen> {
             )
           ],
         ),
+      ],
+    );
+  }
+
+  // for chat input function
+  Widget _chatInput() {
+    return Row(
+      // for button emojis show
+      children: [
+        IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.emoji_emotions,
+              color: Colors.blue,
+            )),
+        // for textfield write the text
+        TextField(),
+        // for button pic image local device
+        IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.image,
+              color: Colors.blue,
+            )),
+        // for pic the image form camera
+        IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.camera_alt_rounded,
+              color: Colors.blue,
+            )),
       ],
     );
   }

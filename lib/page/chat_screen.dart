@@ -97,32 +97,77 @@ class _ChatScreenState extends State<ChatScreen> {
 
   // for chat input function
   Widget _chatInput() {
-    return Row(
-      // for button emojis show
-      children: [
-        IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.emoji_emotions,
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: mq.height * .02, vertical: mq.width * .01),
+      child: Row(
+        children: [
+          // for input field and buttons
+          Expanded(
+            child: Card(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
+              child: Row(
+                // for button emojis show
+                children: [
+                  IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.emoji_emotions,
+                        size: 29,
+                        color: Colors.blue,
+                      )),
+                  // for textfield write the text
+                  const Expanded(
+                    child: TextField(
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      decoration: InputDecoration(
+                          hintText: "Text Something...",
+                          hintStyle: TextStyle(color: Colors.blueAccent),
+                          border: InputBorder.none),
+                    ),
+                  ),
+                  // for button pic image local device
+                  IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.image,
+                        size: 29,
+                        color: Colors.blue,
+                      )),
+                  // for pic the image form camera
+                  IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.camera_alt_rounded,
+                        size: 29,
+                        color: Colors.blue,
+                      )),
+                  // for adding some space
+                  SizedBox(
+                    width: mq.width * .02,
+                  )
+                ],
+              ),
+            ),
+          ),
+          // for send message button
+          MaterialButton(
+              onPressed: () {},
+              shape: const CircleBorder(),
+              minWidth: 0,
+              padding: const EdgeInsets.only(
+                  top: 10, bottom: 10, right: 5, left: 10),
               color: Colors.blue,
-            )),
-        // for textfield write the text
-        TextField(),
-        // for button pic image local device
-        IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.image,
-              color: Colors.blue,
-            )),
-        // for pic the image form camera
-        IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.camera_alt_rounded,
-              color: Colors.blue,
-            )),
-      ],
+              child: const Icon(
+                Icons.send,
+                size: 30,
+                color: Colors.white,
+              ))
+        ],
+      ),
     );
   }
 }

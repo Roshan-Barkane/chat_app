@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../api/api.dart';
+
 class ChatScreen extends StatefulWidget {
   final ChatUser user;
   const ChatScreen({super.key, required this.user});
@@ -32,8 +34,8 @@ class _ChatScreenState extends State<ChatScreen> {
           Expanded(
             child: StreamBuilder(
               // stream are takes to which point to come data
-              //  stream: APIs.getAllUser(),
-              stream: Stream.value(_list[0]),
+              stream: APIs.getAllMessages(),
+              //stream: Stream.value(_list[0]),
               builder: (context, snapshot) {
                 /* condition at if any user don't chat and if data are not loaded. */
                 // connection State say data are loading and loaded.

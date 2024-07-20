@@ -100,4 +100,11 @@ class APIs {
         .doc(user.uid)
         .update({'image': me.image});
   }
+
+  /* ==================== Chat Related APIs ======================= */
+
+  // get the all message of specific Convergation in firebase database
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllMessages() {
+    return firestore.collection("massages").snapshots();
+  }
 }

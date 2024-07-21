@@ -39,9 +39,8 @@ class _MassageCardState extends State<MassageCard> {
                     bottomRight: Radius.circular(30)),
                 border: Border.all(color: Colors.blue.shade300)),
             child: Text(
-              widget.message.msg +
-                  "if context are long then come to error of message overflow and app is not seeble",
-              style: const TextStyle(fontSize: 15, color: Colors.black),
+              widget.message.msg,
+              style: const TextStyle(fontSize: 16, color: Colors.black),
             ),
           ),
         ),
@@ -59,6 +58,50 @@ class _MassageCardState extends State<MassageCard> {
 
   // our or user massage
   Widget _greenMessage() {
-    return Container();
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            SizedBox(
+              width: mq.width * .04,
+            ),
+            // double click blue icon massage read
+            const Icon(
+              Icons.done_all_outlined,
+              color: Colors.blue,
+              size: 19,
+            ),
+            // for adding some space
+            const SizedBox(
+              width: 2,
+            ),
+            // show the time massage
+            Text(
+              "${widget.message.read}04:21 PM",
+              style: const TextStyle(color: Colors.black54, fontSize: 14),
+            ),
+          ],
+        ),
+        Flexible(
+          child: Container(
+            padding: EdgeInsets.all(mq.width * .04),
+            margin: EdgeInsets.symmetric(
+                horizontal: mq.width * .04, vertical: mq.height * .01),
+            decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 192, 255, 194),
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                    bottomLeft: Radius.circular(30)),
+                border: Border.all(color: Colors.green)),
+            child: Text(
+              widget.message.msg,
+              style: const TextStyle(fontSize: 16, color: Colors.black),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

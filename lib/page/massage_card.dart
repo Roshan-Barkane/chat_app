@@ -10,6 +10,16 @@ class MassageCard extends StatefulWidget {
 class _MassageCardState extends State<MassageCard> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container();
+  }
+
+  // Sender or another user massage
+  Widget _blueMessage() {
+    return Container();
+  }
+
+  // our or user massage
+  Widget _greenMessage() {
+    return Container();
   }
 }

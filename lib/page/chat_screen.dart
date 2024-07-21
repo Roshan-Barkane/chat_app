@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/main.dart';
 import 'package:chat_app/models/chat_user.dart';
+import 'package:chat_app/models/massage.dart';
+import 'package:chat_app/page/massage_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +21,8 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   @override
-  final _list = ["Hii", "Who are you man?", "okk i am jack"];
+  List<Massage> _list = [];
+
   Widget build(BuildContext context) {
     return Scaffold(
       // for custom app bar
@@ -64,7 +67,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         // check item are present _searchList then use _searchList otherwise use _list
                         itemCount: _list.length,
                         itemBuilder: ((context, index) {
-                          return Text("message : ${_list[index]}");
+                          return MassageCard();
                         }),
                       );
                     } else {

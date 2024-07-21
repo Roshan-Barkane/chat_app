@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/main.dart';
 import 'package:chat_app/models/chat_user.dart';
+import 'package:chat_app/models/massage.dart';
+import 'package:chat_app/page/massage_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +21,8 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   @override
-  final _list = ["Hii", "Who are you man?", "okk i am jack"];
+  List<Massage> _list = [];
+
   Widget build(BuildContext context) {
     return Scaffold(
       // for custom app bar
@@ -31,6 +34,7 @@ class _ChatScreenState extends State<ChatScreen> {
         flexibleSpace: _appBar(),
       ),
       // body
+      backgroundColor: Color.fromARGB(255, 215, 212, 255),
       body: Column(
         children: [
           Expanded(
@@ -56,6 +60,22 @@ class _ChatScreenState extends State<ChatScreen> {
                     /*_list =
                         data?.map((e) => ChatUser.fromJson(e.data())).toList() ??
                             [];*/
+                    // add dummy contain in list
+                    _list.clear();
+                    _list.add(Massage(
+                        toid: 'xyz',
+                        msg: 'hii',
+                        read: '',
+                        type: Type.text,
+                        send: '12:00 AM',
+                        fromid: APIs.user.uid));
+                    _list.add(Massage(
+                        toid: APIs.user.uid,
+                        msg: 'Hello',
+                        read: '',
+                        type: Type.text,
+                        send: '01:00 PM',
+                        fromid: 'xyz'));
 
                     if (_list.isNotEmpty) {
                       return ListView.builder(
@@ -64,7 +84,9 @@ class _ChatScreenState extends State<ChatScreen> {
                         // check item are present _searchList then use _searchList otherwise use _list
                         itemCount: _list.length,
                         itemBuilder: ((context, index) {
-                          return Text("message : ${_list[index]}");
+                          return MassageCard(
+                            message: _list[index],
+                          );
                         }),
                       );
                     } else {

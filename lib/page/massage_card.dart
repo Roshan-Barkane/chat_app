@@ -38,7 +38,8 @@ class _MassageCardState extends State<MassageCard> {
                   bottomRight: Radius.circular(30)),
               border: Border.all(color: Colors.blue.shade300)),
           child: Text(
-            widget.message.msg,
+            widget.message.msg +
+                "if context are long then come to error of message overflow and app is not seeble",
             style: const TextStyle(fontSize: 15, color: Colors.black),
           ),
         ),

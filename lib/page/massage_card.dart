@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 
+import '../models/massage.dart';
+
 class MassageCard extends StatefulWidget {
-  const MassageCard({super.key});
+  const MassageCard({super.key, required this.message});
+  final Massage message;
 
   @override
   State<MassageCard> createState() => _MassageCardState();

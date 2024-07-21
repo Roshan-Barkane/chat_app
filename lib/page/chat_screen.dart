@@ -59,6 +59,21 @@ class _ChatScreenState extends State<ChatScreen> {
                     /*_list =
                         data?.map((e) => ChatUser.fromJson(e.data())).toList() ??
                             [];*/
+                    // add dummy contain in list
+                    _list.add(Massage(
+                        toid: 'xyz',
+                        msg: 'hii',
+                        read: '',
+                        type: Type.text,
+                        send: '12:00',
+                        fromid: APIs.user.uid));
+                    _list.add(Massage(
+                        toid: APIs.user.uid,
+                        msg: 'Hello',
+                        read: '',
+                        type: Type.text,
+                        send: '12:00',
+                        fromid: 'xyz'));
 
                     if (_list.isNotEmpty) {
                       return ListView.builder(
@@ -67,7 +82,9 @@ class _ChatScreenState extends State<ChatScreen> {
                         // check item are present _searchList then use _searchList otherwise use _list
                         itemCount: _list.length,
                         itemBuilder: ((context, index) {
-                          return MassageCard();
+                          return MassageCard(
+                            message: _list[index],
+                          );
                         }),
                       );
                     } else {

@@ -103,8 +103,20 @@ class APIs {
 
   /* ==================== Chat Related APIs ======================= */
 
-  // get the all message of specific Convergation in firebase database
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllMessages() {
-    return firestore.collection("massages").snapshots();
+  // chats (collection) --> conversation_id(doc) --> messages(collection) --> messages(doc)
+
+  // useful for getting conversation id
+  static String getConversationID(String id) => user.uid.hashCode <= id.hashCode
+      ? '${user.uid}_$id'
+      : '${id}_${user.uid}';
+
+  // get the all message of specific Conversation in firebase database
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllMessages(
+      ChatUser user) {
+    return firestore
+        .collection("chats/${getConversationID(user.id)}/massages")
+        .snapshots();
   }
+
+  // chats (collection) --> conversation_id(doc) --> messages(collection) --> messages(doc)
 }

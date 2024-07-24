@@ -40,7 +40,7 @@ class _ChatScreenState extends State<ChatScreen> {
           Expanded(
             child: StreamBuilder(
               // stream are takes to which point to come data
-              stream: APIs.getAllMessages(),
+              stream: APIs.getAllMessages(widget.user),
               //stream: Stream.value(_list[0]),
               builder: (context, snapshot) {
                 /* condition at if any user don't chat and if data are not loaded. */
@@ -60,22 +60,6 @@ class _ChatScreenState extends State<ChatScreen> {
                     /*_list =
                         data?.map((e) => ChatUser.fromJson(e.data())).toList() ??
                             [];*/
-                    // add dummy contain in list
-                    _list.clear();
-                    _list.add(Massage(
-                        toid: 'xyz',
-                        msg: 'hii',
-                        read: '',
-                        type: Type.text,
-                        send: '12:00 AM',
-                        fromid: APIs.user.uid));
-                    _list.add(Massage(
-                        toid: APIs.user.uid,
-                        msg: 'Hello',
-                        read: '',
-                        type: Type.text,
-                        send: '01:00 PM',
-                        fromid: 'xyz'));
 
                     if (_list.isNotEmpty) {
                       return ListView.builder(

@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/main.dart';
 import 'package:chat_app/models/chat_user.dart';
 import 'package:chat_app/models/massage.dart';
 import 'package:chat_app/page/massage_card.dart';
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import '../api/api.dart';
 
@@ -15,8 +18,15 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  // for storing all message
   List<Massage> _list = [];
+
+  // for handling message text changes
   final _textController = TextEditingController();
+
+  // for storing value of show and hidden emoji
+  bool _showEmoji = false;
+
   @override
 // for handling message text changes
   Widget build(BuildContext context) {
@@ -81,7 +91,26 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
           _chatInput(),
-          const SizedBox(height: 45),
+          const SizedBox(height: 1),
+
+          // show emoji on  keyboards emoji button chick & voice vector
+          if (_showEmoji)
+            SizedBox(
+              height: mq.height * .35,
+              child: EmojiPicker(
+                textEditingController:
+                    _textController, // pass here the same [TextEditingController] that is connected to your input field, usually a [TextFormField]
+                config: Config(
+                  columns: 8,
+                  //enableSkinTones: true,
+                  // bgColor: const Color(0xFFF2F2F2),
+                  //checkPlatformCompatibility: true,
+
+                  // Issue: https://github.com/flutter/flutter/issues/28894
+                  emojiSizeMax: 28 * (Platform.isIOS ? 1.20 : 1.0),
+                ),
+              ),
+            )
         ],
       ),
     );
@@ -168,7 +197,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 // for button emojis show
                 children: [
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() => _showEmoji = !_showEmoji);
+                      },
                       icon: const Icon(
                         Icons.emoji_emotions,
                         size: 29,
@@ -180,6 +211,10 @@ class _ChatScreenState extends State<ChatScreen> {
                       controller: _textController,
                       keyboardType: TextInputType.multiline,
                       maxLines: null,
+                      onTap: () {
+                        if (_showEmoji)
+                          setState(() => _showEmoji = !_showEmoji);
+                      },
                       decoration: const InputDecoration(
                           hintText: "Text Something...",
                           hintStyle: TextStyle(color: Colors.blueAccent),

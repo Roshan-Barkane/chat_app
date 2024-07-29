@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:chat_app/models/chat_user.dart';
+import 'package:chat_app/models/massage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -103,8 +104,37 @@ class APIs {
 
   /* ==================== Chat Related APIs ======================= */
 
-  // get the all message of specific Convergation in firebase database
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllMessages() {
-    return firestore.collection("massages").snapshots();
+  // chats (collection) --> conversation_id(doc) --> messages(collection) --> messages(doc)
+
+  // useful for getting conversation id
+  static String getConversationID(String id) => user.uid.hashCode <= id.hashCode
+      ? '${user.uid}_$id'
+      : '${id}_${user.uid}';
+
+  // get the all message of specific Conversation in firebase database
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllMessages(
+      ChatUser user) {
+    return firestore
+        .collection("chats/${getConversationID(user.id)}/massages")
+        .snapshots();
+  }
+
+  // for sending massage
+  static Future<void> sendMessage(ChatUser chatUser, String msg) async {
+    // message sending time (also used as id)
+    final time = DateTime.now().millisecondsSinceEpoch.toString();
+
+    // message to send
+    final Massage massage = Massage(
+        toid: user.uid,
+        msg: msg,
+        read: '',
+        type: Type.text,
+        send: time,
+        fromid: user.uid);
+    final ref = firestore
+        .collection("chats/${getConversationID(chatUser.id)}/massages");
+    // we make a doc id are time
+    await ref.doc(time).set(massage.toJson());
   }
 }

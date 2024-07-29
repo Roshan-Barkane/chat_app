@@ -137,4 +137,22 @@ class APIs {
     // we make a doc id are time
     await ref.doc(time).set(massage.toJson());
   }
+
+  // update read statues massage
+  static Future<void> updateMessageReadStatus(Massage massage) async {
+    firestore
+        .collection("chats/${getConversationID(massage.fromid)}/massages")
+        .doc(massage.send)
+        .update({'read': DateTime.now().millisecondsSinceEpoch.toString()});
+  }
+
+  // get only last message of a specific chat
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getLastMessages(
+      ChatUser user) {
+    return firestore
+        .collection("chats/${getConversationID(user.id)}/massages")
+        .orderBy('send', descending: true)
+        .limit(1)
+        .snapshots();
+  }
 }

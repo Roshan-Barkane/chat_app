@@ -24,6 +24,11 @@ class _MassageCardState extends State<MassageCard> {
 
   // Sender or another user massage
   Widget _blueMessage() {
+    // update last read message if sender and receiver are different.
+    if (widget.message.read.isEmpty) {
+      // pass the message from update messageReadStatus
+      APIs.updateMessageReadStatus(widget.message);
+    }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

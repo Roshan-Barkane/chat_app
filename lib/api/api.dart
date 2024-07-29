@@ -139,5 +139,10 @@ class APIs {
   }
 
   // update read statues massage
-  static Future<void> updateMessageReadStatus(Massage massage) async {}
+  static Future<void> updateMessageReadStatus(Massage massage) async {
+    firestore
+        .collection("chats/${getConversationID(massage.fromid)}/massages")
+        .doc(massage.send)
+        .update({'read': DateTime.now().millisecondsSinceEpoch.toString()});
+  }
 }

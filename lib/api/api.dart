@@ -145,4 +145,13 @@ class APIs {
         .doc(massage.send)
         .update({'read': DateTime.now().millisecondsSinceEpoch.toString()});
   }
+
+  // get only last message of a specific chat
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getLastMessages(
+      ChatUser user) {
+    return firestore
+        .collection("chats/${getConversationID(user.id)}/massages")
+        .limit(1)
+        .snapshots();
+  }
 }

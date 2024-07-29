@@ -6,6 +6,7 @@ import 'package:chat_app/page/chat_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../helper/my_date_util.dart';
 import '../models/massage.dart';
 
 class chatUserCard extends StatefulWidget {
@@ -45,50 +46,55 @@ class _chatUserCardState extends State<chatUserCard> {
                 _massage = list[0];
               }
               return ListTile(
+                // user pic
+                leading: ClipRRect(
+                  borderRadius: BorderRadius.circular(mq.height * .03),
 
-                  // user pic
-                  leading: ClipRRect(
-                    borderRadius: BorderRadius.circular(mq.height * .03),
-
-                    // cachedNetworkImage are used to dynamic load image
-                    child: CachedNetworkImage(
-                      width: mq.height * .055,
-                      height: mq.height * .055,
-                      imageUrl: widget.user.image,
-                      errorWidget: (context, url, error) =>
-                          const CircleAvatar(child: Icon(Icons.person)),
-                    ),
+                  // cachedNetworkImage are used to dynamic load image
+                  child: CachedNetworkImage(
+                    width: mq.height * .055,
+                    height: mq.height * .055,
+                    imageUrl: widget.user.image,
+                    errorWidget: (context, url, error) =>
+                        const CircleAvatar(child: Icon(Icons.person)),
                   ),
+                ),
 
-                  // user name
-                  title: Text(
-                    widget.user.name,
-                    style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
-                  ),
+                // user name
+                title: Text(
+                  widget.user.name,
+                  style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
 
-                  // user last message
-                  subtitle: Text(
-                    //widget.user.about,
-                    _massage?.msg ?? widget.user.about,
-                    maxLines: 1,
-                  ),
+                // user last message
+                subtitle: Text(
+                  //widget.user.about,
+                  _massage?.msg ?? widget.user.about,
+                  maxLines: 1,
+                ),
 
-                  // message time are show
-                  trailing: Container(
-                    height: 15,
-                    width: 15,
-                    decoration: BoxDecoration(
-                        color: Colors.greenAccent.shade700,
-                        borderRadius: BorderRadius.circular(10)),
-                  )
-                  /*trailing: const Text(
-            "05:47 AM",
-            style: TextStyle(color: Colors.black54),
-          ),*/
-                  );
+                // message time are show
+                trailing: _massage == null
+                    ? null
+                    : _massage!.read.isEmpty &&
+                            _massage!.fromid != APIs.user.uid
+                        ? Container(
+                            height: 15,
+                            width: 15,
+                            decoration: BoxDecoration(
+                                color: Colors.greenAccent.shade700,
+                                borderRadius: BorderRadius.circular(10)),
+                          )
+                        : Text(
+                            MyDataUtil.getLastMessageTime(
+                                context: context, time: _massage!.send),
+                            style:
+                                TextStyle(fontSize: 14, color: Colors.black54),
+                          ),
+              );
             },
           )),
     );

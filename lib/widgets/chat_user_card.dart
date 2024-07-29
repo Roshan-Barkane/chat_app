@@ -91,8 +91,8 @@ class _chatUserCardState extends State<chatUserCard> {
                         : Text(
                             MyDataUtil.getLastMessageTime(
                                 context: context, time: _massage!.send),
-                            style:
-                                TextStyle(fontSize: 14, color: Colors.black54),
+                            style: const TextStyle(
+                                fontSize: 14, color: Colors.black54),
                           ),
               );
             },

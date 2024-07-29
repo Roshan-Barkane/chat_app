@@ -1,14 +1,9 @@
-import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/main.dart';
 import 'package:chat_app/models/chat_user.dart';
 import 'package:chat_app/models/massage.dart';
 import 'package:chat_app/page/massage_card.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 import '../api/api.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -20,21 +15,22 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  @override
   List<Massage> _list = [];
-
+  final _textController = TextEditingController();
+  @override
+// for handling message text changes
   Widget build(BuildContext context) {
     return Scaffold(
       // for custom app bar
       appBar: AppBar(
-        toolbarHeight: 100,
+        toolbarHeight: 75,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.blue,
         // for call the _appBar function
         flexibleSpace: _appBar(),
       ),
       // body
-      backgroundColor: Color.fromARGB(255, 215, 212, 255),
+      backgroundColor: const Color.fromARGB(255, 215, 212, 255),
       body: Column(
         children: [
           Expanded(
@@ -49,17 +45,16 @@ class _ChatScreenState extends State<ChatScreen> {
                   // if data are loading
                   case ConnectionState.waiting:
                   case ConnectionState.none:
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: SizedBox());
 
                   // if some add all the data are loaded.
                   case ConnectionState.active:
                   case ConnectionState.done:
                     final data = snapshot.data?.docs;
-                    debugPrint("Data :${jsonEncode(data![0].data())}");
+
                     // its work on for loop pic one by one data store the list
-                    /*_list =
-                        data?.map((e) => ChatUser.fromJson(e.data())).toList() ??
-                            [];*/
+                    _list =
+                        data!.map((e) => Massage.fromJson(e.data())).toList();
 
                     if (_list.isNotEmpty) {
                       return ListView.builder(
@@ -126,7 +121,7 @@ class _ChatScreenState extends State<ChatScreen> {
             const SizedBox(
               width: 20,
             ),
-            // for show the user name and last seen updata come to online
+            // for show the user name and last seen update come to online
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -145,7 +140,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
                 // for show last time and data online for person
                 const Text(
-                  "Last seen not updata",
+                  "Last seen not update",
                   style: TextStyle(fontSize: 15, color: Colors.white60),
                 )
               ],
@@ -180,11 +175,12 @@ class _ChatScreenState extends State<ChatScreen> {
                         color: Colors.blue,
                       )),
                   // for textfield write the text
-                  const Expanded(
+                  Expanded(
                     child: TextField(
+                      controller: _textController,
                       keyboardType: TextInputType.multiline,
                       maxLines: null,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           hintText: "Text Something...",
                           hintStyle: TextStyle(color: Colors.blueAccent),
                           border: InputBorder.none),
@@ -217,17 +213,23 @@ class _ChatScreenState extends State<ChatScreen> {
 
           // for send message button
           MaterialButton(
-              onPressed: () {},
-              shape: const CircleBorder(),
-              minWidth: 0,
-              padding: const EdgeInsets.only(
-                  top: 10, bottom: 10, right: 5, left: 10),
-              color: Colors.blue,
-              child: const Icon(
-                Icons.send,
-                size: 30,
-                color: Colors.white,
-              ))
+            onPressed: () {
+              if (_textController.text.isNotEmpty) {
+                APIs.sendMessage(widget.user, _textController.text);
+                _textController.text = '';
+              }
+            },
+            shape: const CircleBorder(),
+            minWidth: 0,
+            padding:
+                const EdgeInsets.only(top: 10, bottom: 5, right: 5, left: 10),
+            color: Colors.blue,
+            child: const Icon(
+              Icons.send,
+              size: 30,
+              color: Colors.white,
+            ),
+          )
         ],
       ),
     );

@@ -49,4 +49,32 @@ class ChatUser {
     data['email'] = email;
     return data;
   }
+
+  Map<String, dynamic> toRest() {
+    final data = <String, dynamic>{};
+    data['image'] = image;
+    data['about'] = about;
+    data['name'] = name;
+    data['created_at'] = createdAt;
+    data['last_active'] = lastActive;
+    data['id'] = id;
+    data['is_online'] = isOnline;
+    data['push_token'] = pushToken;
+    data['email'] = email;
+    return data;
+  }
+
+  Map<String, dynamic> goForGo() {
+    final data = <String, dynamic>{};
+    data['image'] = image;
+    data['about'] = about;
+    data['name'] = name;
+    data['created_at'] = createdAt;
+    data['last_active'] = lastActive;
+    data['id'] = id;
+    data['is_online'] = isOnline;
+    data['push_token'] = pushToken;
+    data['email'] = email;
+    return data;
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:chat_app/api/api.dart';
+import 'package:chat_app/helper/my_date_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -48,7 +49,8 @@ class _MassageCardState extends State<MassageCard> {
         Padding(
           padding: EdgeInsets.only(right: mq.width * .04, left: mq.width * .05),
           child: Text(
-            widget.message.send,
+            MyDataUtil.getFormattedTime(
+                context: context, time: widget.message.send),
             style: const TextStyle(color: Colors.black54, fontSize: 14),
           ),
         ),
@@ -67,18 +69,20 @@ class _MassageCardState extends State<MassageCard> {
               width: mq.width * .04,
             ),
             // double click blue icon massage read
-            const Icon(
-              Icons.done_all_outlined,
-              color: Colors.blue,
-              size: 19,
-            ),
+            if (widget.message.read.isNotEmpty)
+              const Icon(
+                Icons.done_all_outlined,
+                color: Colors.blue,
+                size: 19,
+              ),
             // for adding some space
             const SizedBox(
               width: 2,
             ),
             // show the time massage
             Text(
-              "${widget.message.read}04:21 PM",
+              MyDataUtil.getFormattedTime(
+                  context: context, time: widget.message.send),
               style: const TextStyle(color: Colors.black54, fontSize: 14),
             ),
           ],

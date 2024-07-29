@@ -137,4 +137,7 @@ class APIs {
     // we make a doc id are time
     await ref.doc(time).set(massage.toJson());
   }
+
+  // update read statues massage
+  static Future<void> updateMessageReadStatus(Massage massage) async {}
 }

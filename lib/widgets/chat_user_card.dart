@@ -6,6 +6,8 @@ import 'package:chat_app/page/chat_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../models/massage.dart';
+
 class chatUserCard extends StatefulWidget {
   final ChatUser user;
   const chatUserCard({super.key, required this.user});
@@ -15,6 +17,9 @@ class chatUserCard extends StatefulWidget {
 }
 
 class _chatUserCardState extends State<chatUserCard> {
+  // create Massage object
+  // last message info (if null ---> no message)
+  Massage? _massage;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -32,6 +37,13 @@ class _chatUserCardState extends State<chatUserCard> {
           child: StreamBuilder(
             stream: APIs.getLastMessages(widget.user),
             builder: (context, snapshot) {
+              final data = snapshot.data?.docs;
+              final list =
+                  data?.map((e) => Massage.fromJson(e.data())).toList();
+              if (list!.isNotEmpty) {
+                // fetch the data form firebase to local massage object
+                _massage = list[0];
+              }
               return ListTile(
 
                   // user pic
@@ -59,7 +71,8 @@ class _chatUserCardState extends State<chatUserCard> {
 
                   // user last message
                   subtitle: Text(
-                    widget.user.about,
+                    //widget.user.about,
+                    _massage?.msg ?? widget.user.about,
                     maxLines: 1,
                   ),
 

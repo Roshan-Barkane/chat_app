@@ -252,14 +252,13 @@ class _ChatScreenState extends State<ChatScreen> {
                   IconButton(
                       onPressed: () async {
                         final ImagePicker picker = ImagePicker();
-                        // Pick an image.
-                        final XFile? image = await picker.pickImage(
-                            source: ImageSource.gallery, imageQuality: 80);
-                        if (image != null) {
-                          debugPrint(" Image Path :${image.path} ");
-
-                          // call the updatarofilePicture
-                          APIs.sendChatImage(widget.user, File(image.path));
+                        // Picking  multiple images.
+                        final List<XFile> images =
+                            await picker.pickMultiImage(imageQuality: 80);
+                        // uploading and sending image one by one.
+                        for (var i in images) {
+                          debugPrint(" Image Path :${i.path} ");
+                          await APIs.sendChatImage(widget.user, File(i.path));
                         }
                       },
                       icon: const Icon(

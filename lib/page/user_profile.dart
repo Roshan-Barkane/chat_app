@@ -324,6 +324,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       });
                       // call the updataProfilePicture
                       APIs.updateProfilePicture(File(_image!));
+
                       // for hiding bottom sheet
                       Navigator.pop(context);
                     }

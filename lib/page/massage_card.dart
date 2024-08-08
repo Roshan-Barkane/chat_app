@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/api/api.dart';
 import 'package:chat_app/helper/my_date_util.dart';
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +36,8 @@ class _MassageCardState extends State<MassageCard> {
       children: [
         Flexible(
           child: Container(
-            padding: EdgeInsets.all(mq.width * .04),
+            padding: EdgeInsets.all(
+                widget.message.type == Type.image ? 10 : mq.width * .04),
             margin: EdgeInsets.symmetric(
                 horizontal: mq.width * .04, vertical: mq.height * .01),
             decoration: BoxDecoration(
@@ -44,10 +47,29 @@ class _MassageCardState extends State<MassageCard> {
                     topRight: Radius.circular(30),
                     bottomRight: Radius.circular(30)),
                 border: Border.all(color: Colors.blue.shade300)),
-            child: Text(
-              widget.message.msg,
-              style: const TextStyle(fontSize: 16, color: Colors.black),
-            ),
+            child: widget.message.type == Type.text
+                //  show the text in chatScreen
+                ? Text(
+                    widget.message.msg,
+                    style: const TextStyle(fontSize: 16, color: Colors.black),
+                  )
+                :
+                //  show the image in chatScreen
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    // cachedNetworkImage are used to dynamic load image
+                    child: CachedNetworkImage(
+                      imageUrl: widget.message.msg,
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(
+                        strokeWidth: 2,
+                      ),
+                      errorWidget: (context, url, error) => const Icon(
+                        Icons.image,
+                        size: 70,
+                      ),
+                    ),
+                  ),
           ),
         ),
         // show the time massage
@@ -94,7 +116,8 @@ class _MassageCardState extends State<MassageCard> {
         ),
         Flexible(
           child: Container(
-            padding: EdgeInsets.all(mq.width * .04),
+            padding: EdgeInsets.all(
+                widget.message.type == Type.image ? 10 : mq.width * .04),
             margin: EdgeInsets.symmetric(
                 horizontal: mq.width * .04, vertical: mq.height * .01),
             decoration: BoxDecoration(
@@ -104,10 +127,29 @@ class _MassageCardState extends State<MassageCard> {
                     topRight: Radius.circular(30),
                     bottomLeft: Radius.circular(30)),
                 border: Border.all(color: Colors.green)),
-            child: Text(
-              widget.message.msg,
-              style: const TextStyle(fontSize: 16, color: Colors.black),
-            ),
+            child: widget.message.type == Type.text
+                //  show the text in chatScreen
+                ? Text(
+                    widget.message.msg,
+                    style: const TextStyle(fontSize: 16, color: Colors.black),
+                  )
+                :
+                //  show the image in chatScreen
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    // cachedNetworkImage are used to dynamic load image
+                    child: CachedNetworkImage(
+                      imageUrl: widget.message.msg,
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(
+                        strokeWidth: 2,
+                      ),
+                      errorWidget: (context, url, error) => const Icon(
+                        Icons.image,
+                        size: 70,
+                      ),
+                    ),
+                  ),
           ),
         ),
       ],

@@ -90,6 +90,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
                           if (_list.isNotEmpty) {
                             return ListView.builder(
+                              reverse: true,
                               padding: const EdgeInsets.only(top: 10),
                               physics: const BouncingScrollPhysics(),
                               // check item are present _searchList then use _searchList otherwise use _list

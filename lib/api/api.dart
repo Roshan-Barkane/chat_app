@@ -120,7 +120,8 @@ class APIs {
   }
 
   // for sending massage
-  static Future<void> sendMessage(ChatUser chatUser, String msg) async {
+  static Future<void> sendMessage(
+      ChatUser chatUser, String msg, Type type) async {
     // message sending time (also used as id)
     final time = DateTime.now().millisecondsSinceEpoch.toString();
 
@@ -129,7 +130,7 @@ class APIs {
         toid: user.uid,
         msg: msg,
         read: '',
-        type: Type.text,
+        type: type,
         send: time,
         fromid: user.uid);
     final ref = firestore
@@ -154,5 +155,26 @@ class APIs {
         .orderBy('send', descending: true)
         .limit(1)
         .snapshots();
+  }
+
+  // send chat image
+  static Future<void> sendChatImage(ChatUser chatUser, File file) async {
+    // get the extension of file
+    final ext = file.path.split('.').last;
+    //  debugPrint("Extansion : $ext");
+    // create the file in firebase stored
+    final ref = storage.ref().child(
+        "Images/${getConversationID(chatUser.id)}/${DateTime.now().millisecondsSinceEpoch}.$ext");
+    // put the file local to server
+    await ref
+        .putFile(file, SettableMetadata(contentType: 'image/$ext'))
+        .then((p0) {
+      // show the massage we know data are transferred done !
+      debugPrint("Data Transferred : ${p0.bytesTransferred / 100} kb");
+    });
+    // get the url on the server
+    final imageUrl = await ref.getDownloadURL();
+    // update the image only
+    sendMessage(chatUser, imageUrl, Type.image);
   }
 }

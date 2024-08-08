@@ -41,10 +41,17 @@ class _chatUserCardState extends State<chatUserCard> {
               final data = snapshot.data?.docs;
               final list =
                   data?.map((e) => Massage.fromJson(e.data())).toList();
-              if (list!.isNotEmpty) {
+              if (list != null && list.isNotEmpty) {
+                // fetch the data from Firebase to local _massage object
+                _massage = list[0];
+              } else {
+                // handle the case where list is null or empty
+                print('List is null or empty');
+              }
+              /*if (list!.isNotEmpty) {
                 // fetch the data form firebase to local massage object
                 _massage = list[0];
-              }
+              }*/
               return ListTile(
                 // user pic
                 leading: ClipRRect(

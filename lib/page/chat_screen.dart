@@ -7,6 +7,7 @@ import 'package:chat_app/models/massage.dart';
 import 'package:chat_app/page/massage_card.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../api/api.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -248,7 +249,18 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   // for button pic image local device
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        final ImagePicker picker = ImagePicker();
+                        // Pick an image.
+                        final XFile? image = await picker.pickImage(
+                            source: ImageSource.gallery, imageQuality: 80);
+                        if (image != null) {
+                          debugPrint(" Image Path :${image.path} ");
+
+                          // call the updatarofilePicture
+                          APIs.sendChatImage(widget.user, File(image.path));
+                        }
+                      },
                       icon: const Icon(
                         Icons.image,
                         size: 29,
@@ -256,7 +268,18 @@ class _ChatScreenState extends State<ChatScreen> {
                       )),
                   // for pic the image form camera
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        final ImagePicker picker = ImagePicker();
+                        // Pick an image.
+                        final XFile? image = await picker.pickImage(
+                            source: ImageSource.camera, imageQuality: 80);
+                        if (image != null) {
+                          debugPrint(" Image Path :${image.path} ");
+
+                          // call the updataProfilePicture
+                          APIs.sendChatImage(widget.user, File(image.path));
+                        }
+                      },
                       icon: const Icon(
                         Icons.camera_alt_rounded,
                         size: 29,
@@ -275,7 +298,7 @@ class _ChatScreenState extends State<ChatScreen> {
           MaterialButton(
             onPressed: () {
               if (_textController.text.isNotEmpty) {
-                APIs.sendMessage(widget.user, _textController.text);
+                APIs.sendMessage(widget.user, _textController.text, Type.text);
                 _textController.text = '';
               }
             },

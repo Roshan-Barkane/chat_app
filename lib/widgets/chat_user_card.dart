@@ -79,7 +79,12 @@ class _chatUserCardState extends State<chatUserCard> {
                 // user last message
                 subtitle: Text(
                   //widget.user.about,
-                  _massage?.msg ?? widget.user.about,
+                  // _massage?.msg ?? widget.user.about,
+                  _massage != null
+                      ? _massage?.type == Type.image
+                          ? "image"
+                          : _massage!.msg
+                      : widget.user.about,
                   maxLines: 1,
                 ),
 

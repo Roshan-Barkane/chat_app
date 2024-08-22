@@ -25,6 +25,25 @@ class MyDataUtil {
     return "${sendTime.day} :${_getMonth(sendTime)} ";
   }
 
+  // get last message(used in chat user card)
+  static String getLastActiveTime(
+      {required BuildContext context, required String lastActive}) {
+    final int i = int.tryParse(lastActive) ?? -1;
+
+    // if time is not available them return below statement
+    if (i == -1) return 'Last seen not available';
+
+    final DateTime sendTime = DateTime.fromMillisecondsSinceEpoch(i);
+    final DateTime currentTime = DateTime.now();
+
+    if (currentTime.day == sendTime.day &&
+        currentTime.month == sendTime.month &&
+        currentTime.year == sendTime.year) {
+      return TimeOfDay.fromDateTime(sendTime).format(context);
+    }
+    return "${sendTime.day} :${_getMonth(sendTime)} ";
+  }
+
   // get month name from month no. or index
   static String _getMonth(DateTime date) {
     switch (date.month) {

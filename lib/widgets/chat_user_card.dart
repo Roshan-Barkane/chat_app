@@ -79,7 +79,12 @@ class _chatUserCardState extends State<chatUserCard> {
                 // user last message
                 subtitle: Text(
                   //widget.user.about,
-                  _massage?.msg ?? widget.user.about,
+                  // _massage?.msg ?? widget.user.about,
+                  _massage != null
+                      ? _massage?.type == Type.image
+                          ? "image"
+                          : _massage!.msg
+                      : widget.user.about,
                   maxLines: 1,
                 ),
 
@@ -97,7 +102,7 @@ class _chatUserCardState extends State<chatUserCard> {
                           )
                         : Text(
                             MyDataUtil.getLastMessageTime(
-                                context: context, time: _massage!.send),
+                                context: context, lastActive: _massage!.send),
                             style: const TextStyle(
                                 fontSize: 14, color: Colors.black54),
                           ),

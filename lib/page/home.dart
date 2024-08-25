@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:chat_app/models/chat_user.dart';
+import 'package:chat_app/models/massage.dart';
 import 'package:chat_app/page/user_profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../api/api.dart';
 import '../widgets/chat_user_card.dart';
@@ -26,6 +30,18 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     APIs.getSelfInfo();
+    // for setting user  status to active
+    APIs.updateActiveStatus(true);
+
+    // for updating user status according to lifeCycle
+    // resume -- active or online
+    // pause -- inactive or offline
+
+    SystemChannels.lifecycle.setMessageHandler((message) {
+      if (message.toString().contains('resume')) APIs.updateActiveStatus(true);
+      if (message.toString().contains('pause')) APIs.updateActiveStatus(false);
+      return Future.value(message);
+    });
   }
 
   @override

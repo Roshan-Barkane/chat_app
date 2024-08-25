@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chat_app/helper/my_date_util.dart';
 import 'package:chat_app/main.dart';
 import 'package:chat_app/models/chat_user.dart';
 import 'package:chat_app/models/massage.dart';
@@ -25,8 +26,9 @@ class _ChatScreenState extends State<ChatScreen> {
   // for handling message text changes
   final _textController = TextEditingController();
 
-  // for storing value of show and hidden emoji
-  bool _showEmoji = false;
+  // for storing value of show and hidden emoji.
+  // for uploading status in update images.
+  bool _showEmoji = false, _isUploading = false;
 
   @override
 // for handling message text changes
@@ -90,6 +92,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
                           if (_list.isNotEmpty) {
                             return ListView.builder(
+                              reverse: true,
                               padding: const EdgeInsets.only(top: 10),
                               physics: const BouncingScrollPhysics(),
                               // check item are present _searchList then use _searchList otherwise use _list
@@ -112,8 +115,20 @@ class _ChatScreenState extends State<ChatScreen> {
                     },
                   ),
                 ),
+                // processIndicator show the image uploaded.
+                if (_isUploading)
+                  const Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.blue,
+                        ),
+                      )),
+                // for chat input fields
                 _chatInput(),
-                // const SizedBox(height: 45),
 
                 // show emoji on  keyboards emoji button chick & voice vector
                 if (_showEmoji)
@@ -143,65 +158,87 @@ class _ChatScreenState extends State<ChatScreen> {
 
 // for create a function make the app bar demand clint
   Widget _appBar() {
-    return Column(
-      children: [
-        const SizedBox(
-          height: 40,
-        ),
-        Row(
-          children: [
-            // for make button
-            IconButton(
-                onPressed: () => Navigator.pop(context),
-                icon: const Icon(
-                  Icons.arrow_back_ios_new_outlined,
-                  color: Colors.white,
-                )),
-            // for profile picture in current user chat me
-            InkWell(
-              onTap: () {},
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(mq.height * .03),
-                // cachedNetworkImage are used to dynamic load image
-                child: CachedNetworkImage(
-                  width: mq.height * .05,
-                  height: mq.height * .05,
-                  imageUrl: widget.user.image,
-                  errorWidget: (context, url, error) =>
-                      const CircleAvatar(child: Icon(Icons.person)),
-                ),
+    return InkWell(
+      onTap: () {},
+      child: StreamBuilder(
+        stream: APIs.getUserInfo(widget.user),
+        builder: (context, snapshot) {
+          final data = snapshot.data?.docs;
+          final list =
+              data?.map((e) => ChatUser.fromJson(e.data())).toList() ?? [];
+
+          return Column(
+            children: [
+              const SizedBox(
+                height: 40,
               ),
-            ),
-            const SizedBox(
-              width: 20,
-            ),
-            // for show the user name and last seen update come to online
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // show the user name you are chat us
-                Text(
-                  widget.user.name,
-                  style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500),
-                ),
-                // for adding some space
-                const SizedBox(
-                  height: 2,
-                ),
-                // for show last time and data online for person
-                const Text(
-                  "Last seen not update",
-                  style: TextStyle(fontSize: 15, color: Colors.white60),
-                )
-              ],
-            )
-          ],
-        ),
-      ],
+              Row(
+                children: [
+                  // for make button
+                  IconButton(
+                      onPressed: () => Navigator.pop(context),
+                      icon: const Icon(
+                        Icons.arrow_back_ios_new_outlined,
+                        color: Colors.white,
+                      )),
+                  // for profile picture in current user chat me
+                  InkWell(
+                    onTap: () {},
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(mq.height * .03),
+                      // cachedNetworkImage are used to dynamic load image
+                      child: CachedNetworkImage(
+                        width: mq.height * .05,
+                        height: mq.height * .05,
+                        imageUrl:
+                            list.isNotEmpty ? list[0].image : widget.user.image,
+                        errorWidget: (context, url, error) =>
+                            const CircleAvatar(child: Icon(Icons.person)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  // for show the user name and last seen update come to online
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // show the user name you are chat user
+                      Text(
+                        list.isNotEmpty ? list[0].name : widget.user.name,
+                        style: const TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      // for adding some space
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      // for show last time and data online for person
+                      Text(
+                        list.isNotEmpty
+                            ? list[0].isOnline
+                                ? 'Online'
+                                : MyDataUtil.getLastActiveTime(
+                                    context: context,
+                                    lastActive: list[0].lastActive)
+                            : MyDataUtil.getLastActiveTime(
+                                context: context,
+                                lastActive: widget.user.lastActive),
+                        style: const TextStyle(
+                            fontSize: 15, color: Colors.white60),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 
@@ -251,14 +288,15 @@ class _ChatScreenState extends State<ChatScreen> {
                   IconButton(
                       onPressed: () async {
                         final ImagePicker picker = ImagePicker();
-                        // Pick an image.
-                        final XFile? image = await picker.pickImage(
-                            source: ImageSource.gallery, imageQuality: 80);
-                        if (image != null) {
-                          debugPrint(" Image Path :${image.path} ");
-
-                          // call the updatarofilePicture
-                          APIs.sendChatImage(widget.user, File(image.path));
+                        // Picking  multiple images.
+                        final List<XFile> images =
+                            await picker.pickMultiImage(imageQuality: 80);
+                        // uploading and sending image one by one.
+                        for (var i in images) {
+                          debugPrint(" Image Path :${i.path} ");
+                          setState(() => _isUploading = true);
+                          await APIs.sendChatImage(widget.user, File(i.path));
+                          setState(() => _isUploading = false);
                         }
                       },
                       icon: const Icon(

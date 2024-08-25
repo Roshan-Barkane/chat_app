@@ -225,8 +225,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                 : MyDataUtil.getLastActiveTime(
                                     context: context,
                                     lastActive: list[0].lastActive)
-                            : MyDataUtil.getLastMessageTime(
-                                context: context, time: widget.user.lastActive),
+                            : MyDataUtil.getLastActiveTime(
+                                context: context,
+                                lastActive: widget.user.lastActive),
                         style: const TextStyle(
                             fontSize: 15, color: Colors.white60),
                       )

@@ -12,9 +12,9 @@ class MyDataUtil {
 
   // get last message(used in chat user card)
   static String getLastMessageTime(
-      {required BuildContext context, required String time}) {
+      {required BuildContext context, required String lastActive}) {
     final DateTime sendTime =
-        DateTime.fromMillisecondsSinceEpoch(int.parse(time));
+        DateTime.fromMillisecondsSinceEpoch(int.parse(lastActive));
     final DateTime currentTime = DateTime.now();
 
     if (currentTime.day == sendTime.day &&
@@ -36,12 +36,19 @@ class MyDataUtil {
     final DateTime sendTime = DateTime.fromMillisecondsSinceEpoch(i);
     final DateTime currentTime = DateTime.now();
 
+    String formattedTime = TimeOfDay.fromDateTime(sendTime).format(context);
     if (currentTime.day == sendTime.day &&
         currentTime.month == sendTime.month &&
         currentTime.year == sendTime.year) {
-      return TimeOfDay.fromDateTime(sendTime).format(context);
+      return 'Last seen today at $formattedTime';
     }
-    return "${sendTime.day} :${_getMonth(sendTime)} ";
+
+    if ((currentTime.difference(sendTime).inHours / 24).round() == 1) {
+      return 'last seen yesterday at $formattedTime';
+    }
+
+    String month = _getMonth(currentTime);
+    return 'last seen on ${currentTime.day} $month on $formattedTime';
   }
 
   // get month name from month no. or index

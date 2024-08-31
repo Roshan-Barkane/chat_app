@@ -33,7 +33,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
         appBar: AppBar(
           title: Text(
             widget.user.name,
-            style: TextStyle(color: Colors.white, fontSize: 20),
+            style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
           backgroundColor: Colors.blue.shade400,
           toolbarHeight: 80,
@@ -42,7 +42,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
         floatingActionButton: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
               width: 40,
               child: Text(" "),
             ),
@@ -58,7 +58,9 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
             ),
             Text(
               MyDataUtil.getLastMessageTime(
-                  context: context, lastActive: widget.user.createdAt),
+                  context: context,
+                  lastActive: widget.user.createdAt,
+                  showYear: true),
               style: const TextStyle(color: Colors.black38, fontSize: 15),
             ),
           ],
@@ -93,7 +95,7 @@ class _ViewProfileScreenState extends State<ViewProfileScreen> {
                 // show email from the current user
                 Text(
                   widget.user.email,
-                  style: const TextStyle(color: Colors.black, fontSize: 20),
+                  style: const TextStyle(color: Colors.black, fontSize: 18),
                 ),
                 // for adding some space
                 SizedBox(

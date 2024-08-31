@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/auth/login_page.dart';
@@ -49,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
             onPressed: () async {
               // for show progress bar
               Dialogs.showProgessBar(context);
-
+              await APIs.updateActiveStatus(false);
               // sign out from app
               await APIs.auth.signOut().then(
                 (value) async {
@@ -60,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                       // for moving to home page
                       Navigator.pop(context);
-
+                      APIs.auth = FirebaseAuth.instance;
                       // replacing home page to login page
                       Navigator.pushReplacement(
                           context,

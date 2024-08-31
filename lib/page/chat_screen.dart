@@ -6,6 +6,7 @@ import 'package:chat_app/main.dart';
 import 'package:chat_app/models/chat_user.dart';
 import 'package:chat_app/models/massage.dart';
 import 'package:chat_app/page/massage_card.dart';
+import 'package:chat_app/page/view_profile_screen.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -159,7 +160,14 @@ class _ChatScreenState extends State<ChatScreen> {
 // for create a function make the app bar demand clint
   Widget _appBar() {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ViewProfileScreen(user: widget.user),
+          ),
+        );
+      },
       child: StreamBuilder(
         stream: APIs.getUserInfo(widget.user),
         builder: (context, snapshot) {

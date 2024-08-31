@@ -12,7 +12,9 @@ class MyDataUtil {
 
   // get last message(used in chat user card)
   static String getLastMessageTime(
-      {required BuildContext context, required String lastActive}) {
+      {required BuildContext context,
+      required String lastActive,
+      bool showYear = false}) {
     final DateTime sendTime =
         DateTime.fromMillisecondsSinceEpoch(int.parse(lastActive));
     final DateTime currentTime = DateTime.now();
@@ -22,7 +24,9 @@ class MyDataUtil {
         currentTime.year == sendTime.year) {
       return TimeOfDay.fromDateTime(sendTime).format(context);
     }
-    return "${sendTime.day} :${_getMonth(sendTime)} ";
+    return showYear
+        ? "${sendTime.day} ${_getMonth(sendTime)} ${sendTime.year} "
+        : "${sendTime.day} ${_getMonth(sendTime)} ";
   }
 
   // get last message(used in chat user card)

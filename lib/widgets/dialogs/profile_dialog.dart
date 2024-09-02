@@ -54,6 +54,7 @@ class ProfileDialog extends StatelessWidget {
               child: SizedBox(
                 child: IconButton(
                   onPressed: () {
+                    Navigator.pop(context);
                     Navigator.push(
                         context,
                         MaterialPageRoute(

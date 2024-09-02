@@ -3,6 +3,7 @@ import 'package:chat_app/main.dart';
 import 'package:chat_app/models/chat_user.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/page/chat_screen.dart';
+import 'package:chat_app/widgets/dialogs/profile_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -53,17 +54,25 @@ class _chatUserCardState extends State<chatUserCard> {
                 _massage = list[0];
               }*/
               return ListTile(
-                // user pic
-                leading: ClipRRect(
-                  borderRadius: BorderRadius.circular(mq.height * .03),
+                // user profile picture
+                leading: InkWell(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) => ProfileDialog(user: widget.user),
+                    );
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(mq.height * .03),
 
-                  // cachedNetworkImage are used to dynamic load image
-                  child: CachedNetworkImage(
-                    width: mq.height * .055,
-                    height: mq.height * .055,
-                    imageUrl: widget.user.image,
-                    errorWidget: (context, url, error) =>
-                        const CircleAvatar(child: Icon(Icons.person)),
+                    // cachedNetworkImage are used to dynamic load image
+                    child: CachedNetworkImage(
+                      width: mq.height * .055,
+                      height: mq.height * .055,
+                      imageUrl: widget.user.image,
+                      errorWidget: (context, url, error) =>
+                          const CircleAvatar(child: Icon(Icons.person)),
+                    ),
                   ),
                 ),
 

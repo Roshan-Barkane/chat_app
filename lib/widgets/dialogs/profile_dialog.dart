@@ -31,8 +31,9 @@ class ProfileDialog extends StatelessWidget {
               ),
             ),
             // for show the user picture
-            Align(
-              alignment: Alignment.center,
+            Positioned(
+              top: mq.height * .075,
+              left: mq.width * .13,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(mq.height * .4),
                 // cachedNetworkImage are used to dynamic load image

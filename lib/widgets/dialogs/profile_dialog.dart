@@ -19,9 +19,10 @@ class ProfileDialog extends StatelessWidget {
         height: mq.height * .35,
         child: Stack(
           children: [
+            // for show user name
             Positioned(
               top: mq.height * .02,
-              left: mq.width * .04,
+              left: mq.width * .05,
               width: mq.width * .55,
               child: Text(
                 user.name,
@@ -29,6 +30,7 @@ class ProfileDialog extends StatelessWidget {
                     const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
               ),
             ),
+            // for show the user picture
             Align(
               alignment: Alignment.center,
               child: ClipRRect(
@@ -44,8 +46,10 @@ class ProfileDialog extends StatelessWidget {
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.topRight,
+            // for show the button go to view profile screen
+            Positioned(
+              right: 8,
+              top: 6,
               child: SizedBox(
                 child: IconButton(
                   onPressed: () {

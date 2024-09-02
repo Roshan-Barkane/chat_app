@@ -53,7 +53,7 @@ class _chatUserCardState extends State<chatUserCard> {
                 _massage = list[0];
               }*/
               return ListTile(
-                // user pic
+                // user profile picture
                 leading: ClipRRect(
                   borderRadius: BorderRadius.circular(mq.height * .03),
 

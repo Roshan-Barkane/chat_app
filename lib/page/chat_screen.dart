@@ -191,7 +191,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       )),
                   // for profile picture in current user chat me
                   InkWell(
-                    onTap: () {},
+                    // onTap: () {},
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(mq.height * .03),
                       // cachedNetworkImage are used to dynamic load image
